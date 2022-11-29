@@ -1,0 +1,91 @@
+window:
+  dynamic_padding: false
+  decorations: none
+  opacity: 0.85
+  dynamic_title: true
+
+scrolling:
+  history: 10000
+  multiplier: 3
+
+font:
+  normal:
+    family: DroidSansMono Nerd Font
+    style: Regular
+  size: 12.0
+
+draw_bold_text_with_bright_colors: true
+
+schemes:
+  snazzy: &snazzy
+    primary:
+      background: '#282a36'
+      foreground: '#eff0eb'
+    normal:
+      black:   '#282a36'
+      red:     '#ff5c57'
+      green:   '#5af78e'
+      yellow:  '#f3f99d'
+      blue:    '#57c7ff'
+      magenta: '#ff6ac1'
+      cyan:    '#9aedfe'
+      white:   '#f1f1f0'
+    bright:
+      black:   '#686868'
+      red:     '#ff5c57'
+      green:   '#5af78e'
+      yellow:  '#f3f99d'
+      blue:    '#57c7ff'
+      magenta: '#ff6ac1'
+      cyan:    '#9aedfe'
+      white:   '#f1f1f0'
+  tomorrow_night: &tomorrow_night
+    primary:
+      background: '#1d1f21'
+      foreground: '#c5c8c6'
+    cursor:
+      text: '#1d1f21'
+      cursor: '#ffffff'
+    normal:
+      black:   '#1d1f21'
+      red:     '#cc6666'
+      green:   '#b5bd68'
+      yellow:  '#e6c547'
+      blue:    '#81a2be'
+      magenta: '#b294bb'
+      cyan:    '#70c0ba'
+      white:   '#373b41'
+    bright:
+      black:   '#666666'
+      red:     '#ff3334'
+      green:   '#9ec400'
+      yellow:  '#f0c674'
+      blue:    '#81a2be'
+      magenta: '#b77ee0'
+      cyan:    '#54ced6'
+      white:   '#282a2e'
+  substrata: &substrata
+    primary:
+      background: '#191c25'
+      foreground: '#b5b4c9'
+    normal:
+      black:   '#2e313d'
+      red:     '#cf8164'
+      green:   '#76a065'
+      yellow:  '#ab924c'
+      blue:    '#8296b0'
+      magenta: '#a18daf'
+      cyan:    '#659ea2'
+      white:   '#b5b4c9'
+    bright:
+      black:   '#5b5f71'
+      red:     '#fe9f7c'
+      green:   '#92c47e'
+      yellow:  '#d2b45f'
+      blue:    '#a0b9d8'
+      magenta: '#c6aed7'
+      cyan:    '#7dc2c7'
+      white:   '#f0ecfe'
+
+colors: *substrata
+
