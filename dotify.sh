@@ -6,5 +6,13 @@ for dirname in `ls .config`; do
         mkdir -p "$HOME/.config/$dirname"
     fi
     echo "Copying \".config/$dirname/*\" to \"$HOME/.config/$dirname/\""
-    cp .config/$dirname/* "$HOME/.config/$dirname/"
+    cp -r .config/$dirname/* "$HOME/.config/$dirname/"
 done
+
+if [ -d "$HOME/.local/nvim" ]; then
+    echo "Bootstrapping packer in neovim..."
+    nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+    if [ 0 -eq $? ]; then
+	echo "Packer bootstrapped successfully."
+    fi
+fi
