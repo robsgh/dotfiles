@@ -31,6 +31,9 @@ set softtabstop=4
 let mapleader=" "
 
 lua require("plugins")
+lua require("opts")
+lua require("diagnostics")
+lua require("completion")
 
 let g:sonokai_style = 'andromeda'
 let g:sonokai_better_performance = 1
