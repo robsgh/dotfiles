@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+cp ./.zshrc $HOME/.zshrc
+echo "Copied .zshrc"
+
 for dirname in `ls .config`; do
     if [ ! -d "$HOME/.config/$dirname" ]; then
         echo "Creating config dir \"$HOME/.config/$dirname\"..."
@@ -9,10 +12,9 @@ for dirname in `ls .config`; do
     cp -r .config/$dirname/* "$HOME/.config/$dirname/"
 done
 
-if [ -d "$HOME/.local/nvim" ]; then
-    echo "Bootstrapping packer in neovim..."
-    nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-    if [ 0 -eq $? ]; then
-	echo "Packer bootstrapped successfully."
-    fi
+echo "Bootstrapping packer in neovim..."
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+
+if [ 0 -eq $? ]; then
+    echo "Packer bootstrapped successfully."
 fi

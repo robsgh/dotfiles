@@ -23,25 +23,6 @@ return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
     use {
-        'jose-elias-alvarez/null-ls.nvim',
-        requires = { 'neovim/nvim-lspconfig', 'nvim-lua/plenary.nvim' },
-        config = function()
-            local null_ls = require('null-ls')
-            null_ls.setup({
-                sources = {
-                    null_ls.builtins.formatting.stylua,
-                    null_ls.builtins.formatting.black,
-                    null_ls.builtins.diagnostics.eslint,
-                    null_ls.builtins.diagnostics.mypy,
-                    null_ls.builtins.diagnostics.pycodestyle,
-                    null_ls.builtins.diagnostics.pydocstyle,
-                    null_ls.builtins.completion.spell,
-                },
-            })
-        end,
-    }
-
-    use {
         'kyazdani42/nvim-tree.lua',
         requires = 'kyazdani42/nvim-web-devicons',
         config = function()
@@ -57,6 +38,22 @@ return require('packer').startup(function(use)
             'nvim-treesitter/playground',
             'p00f/nvim-ts-rainbow',
         },
+        config = function()
+            require("nvim-treesitter.configs").setup({
+                ensure_installed = { "lua", "rust", "toml", "bash", "cpp", "c", "python" },
+                auto_install = true,
+                highlight = {
+                    enable = true,
+                    additional_vim_regex_highlighting = false,
+                },
+                ident = { enable = true },
+                rainbow = {
+                    enable = true,
+                    extended_mode = true,
+                    max_file_lines = nil,
+                },
+            })
+        end,
         run = ':TSUpdate',
     }
 
@@ -92,9 +89,38 @@ return require('packer').startup(function(use)
         'sainnhe/sonokai',
     }
 
+    use "neovim/nvim-lspconfig"
 
+    use {
+    	"simrat39/rust-tools.nvim",
+        requires = { 'lspconfig' },
+        config = function()
+            require("rust-tools").setup({
+                server = {
+                    on_attach = function(_, bufnr)
+                        vim.keymap.set("n", "<C-space>", require("rust-tools").hover_actions.hover_actions, { buffer = bufnr })
+                        vim.keymap.set("n", "<Leader>a", require("rust-tools").code_action_group.code_action_group, { buffer = bufnr })
+                    end,
+                }
+            })
+        end,
+    }
+
+    use "nvim-lua/plenary.nvim"
+    use "mfussenegger/nvim-dap"
+
+    use 'hrsh7th/nvim-cmp' 
+
+    use 'hrsh7th/cmp-nvim-lsp'
+    use 'hrsh7th/cmp-nvim-lua'
+    use 'hrsh7th/cmp-nvim-lsp-signature-help'
+    use 'hrsh7th/cmp-vsnip'                             
+    use 'hrsh7th/cmp-path'                              
+    use 'hrsh7th/cmp-buffer'                            
+    use 'hrsh7th/vim-vsnip'  
 
     if packer_bootstrap then
         require('packer').sync()
     end
 end)
+
