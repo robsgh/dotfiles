@@ -22,6 +22,7 @@ vim.cmd([[
 return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
+    -- File Explorer
     use {
         'kyazdani42/nvim-tree.lua',
         requires = 'kyazdani42/nvim-web-devicons',
@@ -31,6 +32,7 @@ return require('packer').startup(function(use)
         end,
     }
 
+    -- Treesitter
     use {
         'nvim-treesitter/nvim-treesitter',
         requires = {
@@ -57,6 +59,10 @@ return require('packer').startup(function(use)
         run = ':TSUpdate',
     }
 
+    -- Programming QoL
+    use 'kylechui/nvim-surround'
+    use 'lukas-reineke/indent-blankline.nvim'
+    use 'sainnhe/sonokai'
     use {
         'windwp/nvim-autopairs',
         config = function()
@@ -78,23 +84,10 @@ return require('packer').startup(function(use)
     }
 
     use {
-        'kylechui/nvim-surround',
-        tag = '*',
-        config = function()
-            require('nvim-surround').setup({})
-        end,
-    }
-
-    use {
-        'sainnhe/sonokai',
-    }
-
-    use "neovim/nvim-lspconfig"
-
-    use {
     	"simrat39/rust-tools.nvim",
-        requires = { 'lspconfig' },
+        requires = { 'neovim/nvim-lspconfig' },
         config = function()
+            require("lspconfig")
             require("rust-tools").setup({
                 server = {
                     on_attach = function(_, bufnr)
@@ -106,18 +99,32 @@ return require('packer').startup(function(use)
         end,
     }
 
-    use "nvim-lua/plenary.nvim"
-    use "mfussenegger/nvim-dap"
+    use {
+        "mfussenegger/nvim-dap",
+        requires = { 'nvim-lua/plenary.nvim' },
+    }
 
-    use 'hrsh7th/nvim-cmp' 
+    use {
+        'folke/trouble.nvim',
+        requires = { 'kyazdani42/nvim-web-devicons' },
+        config = function()
+            require("trouble").setup({})
+        end,
+    }
 
-    use 'hrsh7th/cmp-nvim-lsp'
-    use 'hrsh7th/cmp-nvim-lua'
-    use 'hrsh7th/cmp-nvim-lsp-signature-help'
-    use 'hrsh7th/cmp-vsnip'                             
-    use 'hrsh7th/cmp-path'                              
-    use 'hrsh7th/cmp-buffer'                            
-    use 'hrsh7th/vim-vsnip'  
+    use {
+        'hrsh7th/nvim-cmp',
+        requires = {
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-nvim-lua',
+            'hrsh7th/cmp-nvim-lsp-signature-help',
+            'hrsh7th/cmp-vsnip',
+            'hrsh7th/cmp-path' ,
+            'hrsh7th/cmp-buffer', 
+            'hrsh7th/vim-vsnip',
+        },
+    }
+
 
     if packer_bootstrap then
         require('packer').sync()

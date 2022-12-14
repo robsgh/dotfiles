@@ -13,8 +13,10 @@ for dirname in `ls .config`; do
 done
 
 echo "Bootstrapping packer in neovim..."
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync' &2>/dev/null
 
 if [ 0 -eq $? ]; then
     echo "Packer bootstrapped successfully."
+else
+    echo "An error ocurred during Packer bootstrap."
 fi
