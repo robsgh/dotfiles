@@ -87,15 +87,7 @@ return require('packer').startup(function(use)
     	"simrat39/rust-tools.nvim",
         requires = { 'neovim/nvim-lspconfig' },
         config = function()
-            require("lspconfig")
-            require("rust-tools").setup({
-                server = {
-                    on_attach = function(_, bufnr)
-                        vim.keymap.set("n", "<C-space>", require("rust-tools").hover_actions.hover_actions, { buffer = bufnr })
-                        vim.keymap.set("n", "<Leader>a", require("rust-tools").code_action_group.code_action_group, { buffer = bufnr })
-                    end,
-                }
-            })
+            require("rust-tools").setup({})
         end,
     }
 
@@ -112,6 +104,7 @@ return require('packer').startup(function(use)
         end,
     }
 
+
     use {
         'hrsh7th/nvim-cmp',
         requires = {
@@ -123,6 +116,15 @@ return require('packer').startup(function(use)
             'hrsh7th/cmp-buffer', 
             'hrsh7th/vim-vsnip',
         },
+    }
+
+    use {
+        "voldikss/vim-floaterm",
+        config = function()
+            vim.keymap.set("n", "<Leader>ft", ":FloatermNew --name=floater --height=0.87 --width=0.87 --autoclose=2 zsh <CR> ")
+            vim.keymap.set("n", "<Leader>t", ":FloatermToggle floater<CR>")
+            vim.keymap.set("t", "<Esc>", "<C-\\><C-n>:q<CR>")
+        end,
     }
 
 
