@@ -42,6 +42,8 @@ colorscheme sonokai
 autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
 nnoremap <Leader>f <cmd>lua vim.lsp.buf.format()<CR>
 
+nnoremap <Leader>ca <cmd>CodeActionMenu<CR>
+
 " Configure LSP code navigation shortcuts
 nnoremap <silent> <c-]>     <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> <c-k>     <cmd>lua vim.lsp.buf.signature_help()<CR>

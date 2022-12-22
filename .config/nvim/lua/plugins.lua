@@ -42,7 +42,7 @@ return require('packer').startup(function(use)
         },
         config = function()
             require("nvim-treesitter.configs").setup({
-                ensure_installed = { "lua", "rust", "toml", "bash", "cpp", "c", "python" },
+                ensure_installed = { "lua", "wgsl", "rust", "toml", "bash", "cpp", "c", "python" },
                 auto_install = true,
                 highlight = {
                     enable = true,
@@ -104,6 +104,18 @@ return require('packer').startup(function(use)
         end,
     }
 
+    use {
+        'kosayoda/nvim-lightbulb',
+        requires = { 'antoinemadec/FixCursorHold.nvim' },
+        config = function()
+            require('nvim-lightbulb').setup({autocmd = {enabled = true}})
+        end,
+    }
+
+    use {
+        'weilbith/nvim-code-action-menu',
+        cmd = 'CodeActionMenu',
+    }
 
     use {
         'hrsh7th/nvim-cmp',
@@ -121,12 +133,11 @@ return require('packer').startup(function(use)
     use {
         "voldikss/vim-floaterm",
         config = function()
-            vim.keymap.set("n", "<Leader>ft", ":FloatermNew --name=floater --height=0.87 --width=0.87 --autoclose=2 zsh <CR> ")
+            vim.keymap.set("n", "<Leader>ft", ":FloatermNew --name=floater --height=0.94 --width=0.93 --autoclose=2 zsh <CR> ")
             vim.keymap.set("n", "<Leader>t", ":FloatermToggle floater<CR>")
             vim.keymap.set("t", "<Esc>", "<C-\\><C-n>:q<CR>")
         end,
     }
-
 
     if packer_bootstrap then
         require('packer').sync()

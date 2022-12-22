@@ -162,4 +162,5 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec xinput set-prop "PIXA3854:00 093A:0274 Touchpad" "libinput Tapping Enabled" 1
 exec xinput set-prop "PIXA3854:00 093A:0274 Touchpad" "libinput Accel Speed" 0.4
 exec xinput set-prop "PIXA3854:00 093A:0274 Touchpad" "libinput Natural Scrolling Enabled" 1
+exec xinput set-prop "PIXA3854:00 093A:0274 Touchpad" "libinput Disable While Typing Enabled" 0
 
