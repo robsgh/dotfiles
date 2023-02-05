@@ -1,6 +1,5 @@
 window:
   dynamic_padding: false
-  opacity: 0.97
   decorations: none
   dynamic_title: true
 
