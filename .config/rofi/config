@@ -8,5 +8,5 @@ rofi.padding:		0
 rofi.separator-style:	none
 rofi.hide-scrollbar:	true
 rofi.line-margin:	0
-rofi.font:		DejaVu Sans
+rofi.font:		SauceCodePro Nerd Font
 
