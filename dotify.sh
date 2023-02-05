@@ -22,6 +22,27 @@ fi
 echo "Copying .zshrc..."
 cp -sf "$HOME/dots/.zshrc" "$HOME/.zshrc"
 
+echo "Installing required packages..."
+for package in "${PACKAGES[@]}"; do
+    if ! dnf list --installed "$package" > /dev/null; then
+        echo "Installing $package..."
+        sudo dnf install -y $package
+    else
+        echo "$package is installed!"
+    fi
+done
+
+if ! fc-list -q :family="SauceCodePro Nerd Font"; then
+    echo "Installing SauceCodePro Nerd Font..."
+    curl -fLo "SauceCodePro Nerd Font Complete.ttf"\
+            "https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete.ttf"\
+            1&> /dev/null \
+        && mv "SauceCodePro Nerd Font Complete.ttf" "$HOME/.local/share/fonts/" \
+        && echo "SauceCodePro Nerd Font installed successfully!"
+else
+    echo "SauceCodePro Nerd Font is already installed... skipping download"
+fi
+
 for dirname in `ls .config`; do
     if [[ ! -e "$HOME/.config/$dirname" ]] || [[ ! -d "$HOME/.config/$dirname" ]]; then
         echo "Creating config dir \"$HOME/.config/$dirname\"..."
@@ -38,14 +59,4 @@ if nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync" 2&> 
 else
     echo "An error ocurred during Packer bootstrap."
 fi
-
-echo "Installing required packages..."
-for package in "${PACKAGES[@]}"; do
-    if ! dnf list --installed "$package" > /dev/null; then
-        echo "Installing $package..."
-        sudo dnf install -y $package
-    else
-        echo "$package is installed!"
-    fi
-done
 

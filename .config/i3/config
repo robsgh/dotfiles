@@ -1,7 +1,7 @@
 # i3 config file (v4)
 set $mod Mod1
 
-font pango:SauceCodePro Nerd Font Mono 12 
+font pango:SauceCodePro Nerd Font 12 
 title_align center
 
 #============================== KEYBINDS

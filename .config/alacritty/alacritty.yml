@@ -10,7 +10,7 @@ scrolling:
 
 font:
   normal:
-    family: SauceCodePro Nerd Font Mono
+    family: SauceCodePro Nerd Font
   size: 12.0
 
 draw_bold_text_with_bright_colors: true
