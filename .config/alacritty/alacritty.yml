@@ -1,7 +1,7 @@
 window:
   dynamic_padding: false
+  opacity: 0.97
   decorations: none
-  opacity: 0.95
   dynamic_title: true
 
 scrolling:
@@ -86,5 +86,5 @@ schemes:
       cyan:    '#7dc2c7'
       white:   '#f0ecfe'
 
-colors: *substrata
+colors: *snazzy
 

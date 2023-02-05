@@ -34,9 +34,10 @@ alias ll="ls -l"
 alias la="ls -al"
 alias lh="ls -alh"
 alias mkdirp="mkdir -p"
-alias vidots="nvim -c ':cd ~/dots' ~/dots/"
-alias dotify="bash -c '~/dots/dotify.sh'"
 
+alias vidots="nvim -c ':cd ~/dots' ~/dots/"
 alias vizshrc="nvim ~/.zshrc"
 alias sourcerc="source ~/.zshrc"
+alias dotify="bash -c '~/dots/dotify.sh'"
+alias commitdots="cd ~/dots && git commit -a && cd -"
 
