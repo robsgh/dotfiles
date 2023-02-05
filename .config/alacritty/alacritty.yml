@@ -1,11 +1,11 @@
 window:
   dynamic_padding: false
   decorations: none
-  opacity: 0.85
+  opacity: 0.95
   dynamic_title: true
 
 scrolling:
-  history: 10000
+  history: 100000
   multiplier: 3
 
 font:
