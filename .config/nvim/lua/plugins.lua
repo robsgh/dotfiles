@@ -27,7 +27,7 @@ return require('packer').startup(function(use)
         'kyazdani42/nvim-tree.lua',
         requires = 'kyazdani42/nvim-web-devicons',
         config = function()
-            vim.api.nvim_set_keymap('n', '<leader>n', ':NvimTreeToggle<cr>', {})
+            vim.api.nvim_set_keymap('n', '<C-n>', ':NvimTreeToggle<cr>', {})
             require('nvim-tree').setup({})
         end,
     }
@@ -133,7 +133,7 @@ return require('packer').startup(function(use)
     use {
         "voldikss/vim-floaterm",
         config = function()
-            vim.keymap.set("n", "<Leader>ft", ":FloatermNew --name=floater --height=0.94 --width=0.93 --autoclose=2 zsh <CR> ")
+            vim.keymap.set("n", "<Leader>ft", ":FloatermNew --name=floater --height=0.94 --width=0.93 --autoclose=2 zsh <CR>")
             vim.keymap.set("n", "<Leader>t", ":FloatermToggle floater<CR>")
             vim.keymap.set("t", "<Esc>", "<C-\\><C-n>:q<CR>")
         end,
