@@ -61,6 +61,7 @@ source $ZSH/oh-my-zsh.sh
 #===== Env & Aliases
 export EDITOR="nvim"
 export VISUAL="nvim"
+export TERM="xterm-256color"
 
 alias vim="nvim"
 alias ll="ls -l"
@@ -73,3 +74,5 @@ alias vizshrc="nvim ~/.zshrc && source ~/.zshrc"
 alias dotify="bash -c '~/dots/dotify.sh'"
 alias commitdots="cd ~/dots && git commit -a && cd -"
 
+alias ssha='eval `ssh-agent -s`'
+alias sshk='eval `ssh-agent -k`'
