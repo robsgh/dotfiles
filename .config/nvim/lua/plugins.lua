@@ -22,6 +22,9 @@ vim.cmd([[
 return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
+    -- Color scheme
+    use 'sainnhe/sonokai'
+
     -- File Explorer
     use {
         'kyazdani42/nvim-tree.lua',
@@ -56,44 +59,53 @@ return require('packer').startup(function(use)
                 },
             })
         end,
-        run = ':TSUpdate',
+        run = ':TSUpdateSync',
+    }
+
+    -- Floating terminal within nvim
+    use "voldikss/vim-floaterm"
+
+    -- Figure out what the hell is what
+    use {
+        "folke/which-key.nvim",
+        config = function()
+            require("which-key").setup({})
+        end,
     }
 
     -- Programming QoL
-    use 'kylechui/nvim-surround'
     use 'lukas-reineke/indent-blankline.nvim'
-    use 'sainnhe/sonokai'
+    use {
+        "j-hui/fidget.nvim",
+        config = function()
+            require("fidget").setup()
+        end,
+    }
+    use {
+        'kylechui/nvim-surround',
+        config = function()
+            require("nvim-surround").setup({})
+        end,
+    }
+
+    use {
+        'hrsh7th/nvim-cmp',
+        requires = {
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-nvim-lua',
+            'hrsh7th/cmp-nvim-lsp-signature-help',
+            'hrsh7th/cmp-vsnip',
+            'hrsh7th/cmp-path' ,
+            'hrsh7th/cmp-buffer', 
+            'hrsh7th/vim-vsnip',
+        },
+    }
+
     use {
         'windwp/nvim-autopairs',
         config = function()
             require('nvim-autopairs').setup({ check_ts = true })
         end,
-    }
-
-    use {
-        'hoob3rt/lualine.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/lsp-status.nvim' },
-        config = function()
-            require('lualine').setup({
-                options = { theme = 'sonokai' },
-                sections = {
-                    lualine_x = { require('lsp-status').status, 'encoding', 'fileformat', 'filetype' },
-                },
-            })
-        end,
-    }
-
-    use {
-    	"simrat39/rust-tools.nvim",
-        requires = { 'neovim/nvim-lspconfig' },
-        config = function()
-            require("rust-tools").setup({})
-        end,
-    }
-
-    use {
-        "mfussenegger/nvim-dap",
-        requires = { 'nvim-lua/plenary.nvim' },
     }
 
     use {
@@ -118,24 +130,42 @@ return require('packer').startup(function(use)
     }
 
     use {
-        'hrsh7th/nvim-cmp',
+        'simrat39/rust-tools.nvim',
         requires = {
-            'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-nvim-lua',
-            'hrsh7th/cmp-nvim-lsp-signature-help',
-            'hrsh7th/cmp-vsnip',
-            'hrsh7th/cmp-path' ,
-            'hrsh7th/cmp-buffer', 
-            'hrsh7th/vim-vsnip',
+            'neovim/nvim-lspconfig',
         },
+        config = function()
+            require("rust-tools").setup({
+              server = {
+                on_attach = function(_, bufnr)
+                  -- Hover actions
+                  vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+                  -- Code action groups
+                  vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+                end,
+                settings = {
+                    ["rust-analyzer"] = {
+                        checkOnSave = {
+                            command = "clippy",
+                        },
+                    },
+                },
+              },
+            })
+        end,
     }
 
+    -- A wee bit of pizaz
     use {
-        "voldikss/vim-floaterm",
+        'hoob3rt/lualine.nvim',
+        requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/lsp-status.nvim' },
         config = function()
-            vim.keymap.set("n", "<Leader>ft", ":FloatermNew --name=floater --height=0.94 --width=0.93 --autoclose=2 zsh <CR>")
-            vim.keymap.set("n", "<Leader>t", ":FloatermToggle floater<CR>")
-            vim.keymap.set("t", "<Esc>", "<C-\\><C-n>:q<CR>")
+            require('lualine').setup({
+                options = { theme = 'sonokai' },
+                sections = {
+                    lualine_x = { require('lsp-status').status, 'encoding', 'fileformat', 'filetype' },
+                },
+            })
         end,
     }
 

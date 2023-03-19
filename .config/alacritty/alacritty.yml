@@ -1,11 +1,8 @@
 window:
   dynamic_padding: false
-  decorations: none
-  dynamic_title: true
 
 scrolling:
   history: 100000
-  multiplier: 3
 
 font:
   normal:
