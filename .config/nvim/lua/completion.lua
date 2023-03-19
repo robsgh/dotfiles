@@ -1,5 +1,5 @@
 -- Completion Plugin Setup
-local cmp = require'cmp'
+local cmp = require("cmp")
 cmp.setup({
   -- Enable LSP snippets
   snippet = {
