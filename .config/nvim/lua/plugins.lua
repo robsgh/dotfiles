@@ -135,7 +135,8 @@ return require('packer').startup(function(use)
             'neovim/nvim-lspconfig',
         },
         config = function()
-            require("rust-tools").setup({
+            local rt = require("rust-tools")
+            rt.setup({
               server = {
                 on_attach = function(_, bufnr)
                   -- Hover actions

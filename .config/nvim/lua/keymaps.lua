@@ -23,5 +23,5 @@ keymap("n", "]x", ":lua vim.diagnostic.goto_next()<CR>", n_opts)
 keymap("n", "]s", ":lua vim.diagnostic.show()<CR>", n_opts)
 keymap("n", "<Leader>q", ":Trouble<CR>", n_opts)
 
-keymap("n", "<S-t>", ":FloatermToggle --name=floater --height=0.94 --width=0.93 --autoclose=2<CR>", n_opts)
+keymap("n", "<Leader>t", ":FloatermToggle --name=floater --height=0.94 --width=0.93 --autoclose=2<CR>", n_opts)
 keymap("t", "<Esc>", "<C-\\><C-n>:q<CR>", t_opts)
