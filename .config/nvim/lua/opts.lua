@@ -37,10 +37,6 @@ vim.opt.shiftwidth = indent
 vim.opt.tabstop = indent 
 vim.opt.softtabstop = indent
 
-vim.cmd([[
-    colorscheme monokai-pro
-]])
-
 -- Used for which-key
 vim.opt.timeout = true
 vim.opt.timeoutlen = 500

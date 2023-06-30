@@ -24,12 +24,13 @@ return require('packer').startup(function(use)
 
     -- Color scheme
     use {
-      "loctvl842/monokai-pro.nvim",
+      "folke/tokyonight.nvim",
       config = function()
-        require("monokai-pro").setup({
-            filter = "pro",
-        })
-      end
+          require("tokyonight").setup({
+            style = "storm"
+          })
+          vim.cmd[[colorscheme tokyonight]]
+      end,
     }
 
     -- File Explorer
@@ -165,7 +166,7 @@ return require('packer').startup(function(use)
         requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/lsp-status.nvim' },
         config = function()
             require('lualine').setup({
-                theme = 'monokai-pro',
+                theme = 'tokyonight',
                 sections = {
                     lualine_x = { require('lsp-status').status, 'encoding', 'fileformat', 'filetype' },
                 },
