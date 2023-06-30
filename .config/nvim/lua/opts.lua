@@ -38,9 +38,7 @@ vim.opt.tabstop = indent
 vim.opt.softtabstop = indent
 
 vim.cmd([[
-    let g:sonokai_style = "atlantis"
-    let g:sonokai_better_performance = 1
-    colorscheme sonokai
+    colorscheme monokai-pro
 ]])
 
 -- Used for which-key

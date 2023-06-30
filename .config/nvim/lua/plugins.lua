@@ -23,7 +23,14 @@ return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
     -- Color scheme
-    use 'sainnhe/sonokai'
+    use {
+      "loctvl842/monokai-pro.nvim",
+      config = function()
+        require("monokai-pro").setup({
+            filter = "pro",
+        })
+      end
+    }
 
     -- File Explorer
     use {
@@ -145,11 +152,7 @@ return require('packer').startup(function(use)
                   vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
                 end,
                 settings = {
-                    ["rust-analyzer"] = {
-                        checkOnSave = {
-                            command = "clippy",
-                        },
-                    },
+                    ["rust-analyzer"] = {},
                 },
               },
             })
@@ -162,7 +165,7 @@ return require('packer').startup(function(use)
         requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/lsp-status.nvim' },
         config = function()
             require('lualine').setup({
-                options = { theme = 'sonokai' },
+                theme = 'monokai-pro',
                 sections = {
                     lualine_x = { require('lsp-status').status, 'encoding', 'fileformat', 'filetype' },
                 },
