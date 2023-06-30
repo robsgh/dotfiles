@@ -4,12 +4,14 @@
 
 Configurations for:
 
-* alacritty -> HW Accelerated terminal emulator
-* i3 -> Window Manager of choice
+* alacritty -> HW accelerated terminal emulator
+* i3 -> Window manager of choice
 * nvim -> IDE functions and QoL improvements for neovim
-* picom -> improvements to the compositor
+* picom -> Improvements to the compositor
 * polybar -> Fairly basic i3bar that isn't as barebones as the out-of-the-box i3bar
 * rofi -> Modern reinterpretation of a dmenu-esque launcher tool
+* zsh -> self explanatory
+* tmux -> Super duper cool status line that isn't green
 
 
 ## Usage:
@@ -18,5 +20,5 @@ Configurations for:
 $ ./dotify.sh
 ```
 
-and then hope and pray. The script should attempt to bootstrap packer, too. It will not handle installing oh-my-zsh, though (yet?).
+and then hope and pray. The script should attempt to bootstrap packer, too.
 
