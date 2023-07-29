@@ -69,10 +69,10 @@ alias la="ls -al"
 alias lh="ls -alh"
 alias mkdirp="mkdir -p"
 
-alias vidots="nvim -c ':cd ~/dots' -c ':NvimTreeOpen' ~/dots/"
+alias vidots="cd ~/dotfiles && nvim && cd -"
 alias vizshrc="nvim ~/.zshrc && source ~/.zshrc"
-alias dotify="bash -c '~/dots/dotify.sh'"
-alias commitdots="cd ~/dots && git commit -a && cd -"
+alias dotify="cd ~/dotfiles && bash -c '~/dots/dotify.sh' && cd -"
+alias commitdots="cd ~/dotfiles && git commit -a && cd -"
 
 alias ssha='eval `ssh-agent -s`'
 alias sshk='eval `ssh-agent -k`'
@@ -80,3 +80,6 @@ alias sshk='eval `ssh-agent -k`'
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+alias home="cd $HOME"
+alias proj="cd $HOME/Projects/"
