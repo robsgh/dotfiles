@@ -67,7 +67,6 @@ return {
         "shellcheck",
         "shfmt",
         "flake8",
-        "pyre",
         "rust-analyzer",
       },
     },
