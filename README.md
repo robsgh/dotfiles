@@ -6,7 +6,7 @@ Configurations for:
 
 * alacritty -> HW accelerated terminal emulator
 * i3 -> Window manager of choice
-* nvim -> IDE functions and QoL improvements for neovim
+* nvim -> Modified [LazyVim](https://www.lazyvim.org/) config
 * picom -> Improvements to the compositor
 * polybar -> Fairly basic i3bar that isn't as barebones as the out-of-the-box i3bar
 * rofi -> Modern reinterpretation of a dmenu-esque launcher tool
