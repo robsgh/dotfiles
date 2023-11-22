@@ -1,18 +1,10 @@
 #!/usr/bin/env bash
 
 PACKAGES=(
-	i3
 	neovim
-	polybar
-	alacritty
-	picom
-	rofi
-	xset
-	xinput
-	xss-lock
-	feh
-	i3lock
-	xrandr
+	hyprland-git
+	hyprpaper
+	waybar-git
 )
 
 DOTS_DIR="$(realpath -s $(dirname -- "$0"))"

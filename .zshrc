@@ -22,39 +22,6 @@ local current_dir="%B%F{blue}%~%f%b"
 
 PROMPT="${user_host}:${current_dir} ${PR_PROMPT}"
 
-#===== Ensure ~/Wallpapers/ exists
-if [[ ! -d "$HOME/Wallpapers" ]]; then
-    mkdir "$HOME/Wallpapers"
-fi
-
-WALLPAPER_COUNT=$(ls "$HOME/Wallpapers/" | wc -l)
-if [[ WALLPAPER_COUNT -eq 0 ]]; then
-    WHVN_WALLPAPERS=(
-        "qzzk9q.png"
-        "n6x5el.jpg"
-        "ox6orl.jpg"
-        "gpzzdq.png"
-        "ox19m9.jpg"
-        "1kjrrg.jpg"
-        "39p7gy.jpg"
-        "gpwze3.png"
-        "gjq7g3.jpg"
-    )
-
-    echo "Download wallpapers now? [Y/n]"
-    read wallin
-    if [[ $wallin = "y" ]] || [[ $wallin = "" ]]; then
-        echo "Downloading..."
-        for wallpaper in "${WHVN_WALLPAPERS[@]}"; do
-            filename=$(echo $wallpaper | awk -F. '{print $1}')
-            curl -fLo "$HOME/Wallpapers/$filename" "https://w.wallhaven.cc/full/${wallpaper:0:2}/wallhaven-$wallpaper"
-        done
-        echo "Done."
-    else
-        echo "Skipping wallpaper download."
-    fi
-fi
-
 #===== Include Oh-My-Zsh
 source $ZSH/oh-my-zsh.sh
 
@@ -67,19 +34,11 @@ alias vim="nvim"
 alias ll="ls -l"
 alias la="ls -al"
 alias lh="ls -alh"
-alias mkdirp="mkdir -p"
 
-alias vidots="cd ~/dotfiles && nvim && cd -"
 alias vizshrc="nvim ~/.zshrc && source ~/.zshrc"
-alias dotify="cd ~/dotfiles && bash -c '~/dots/dotify.sh' && cd -"
-alias commitdots="cd ~/dotfiles && git commit -a && cd -"
 
 alias ssha='eval `ssh-agent -s`'
 alias sshk='eval `ssh-agent -k`'
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 alias home="cd $HOME"
 alias proj="cd $HOME/Projects/"
