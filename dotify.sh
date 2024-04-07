@@ -5,6 +5,8 @@ PACKAGES=(
 	hyprland-git
 	hyprpaper
 	waybar-git
+	hyprlock
+	hypridle
 )
 
 DOTS_DIR="$(realpath -s $(dirname -- "$0"))"
