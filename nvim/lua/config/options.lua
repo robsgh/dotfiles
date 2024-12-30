@@ -13,3 +13,4 @@ vim.cmd([[
 ]])
 
 vim.opt.clipboard = ""
+vim.opt.joinspaces = false
