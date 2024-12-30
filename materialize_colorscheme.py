@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 
-import logging
 import json
 from datetime import datetime
-
-logger: logging.Logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
 
 COLORSCHEME = {
     "background": 0,
@@ -35,14 +31,14 @@ def load_json_colorscheme(filename: str) -> dict[str, str]:
         scheme = json.loads(f.read())
 
     if "hex" not in scheme:
-        logger.fatal(f"no hex codes are in file {filename}")
+        print(f"ERROR: no hex codes are in file {filename}")
         exit(1)
 
     loaded_colorscheme = {}
     for key in COLORSCHEME:
         color = scheme["hex"].get(key)
         if not color:
-            logger.fatal(f"missing color {key} in {filename}")
+            print(f"ERROR: missing color {key} in {filename}")
             exit(2)
 
         assert color.startswith("#")
@@ -63,7 +59,6 @@ cursor-color = {colorscheme['cursor']}
 """
     for key, value in list(colorscheme.items())[3:]:
         i = COLORSCHEME[key]
-        logger.info(f"color #{i} ({key}) has hex value {value}")
         output += f"\n# {key}\npalette = {i}={value}\n"
 
     return output
@@ -73,19 +68,17 @@ def run() -> None:
     import os
 
     colorscheme_path = os.path.abspath("./robpheme.colors")
-    logger.warning(
-        f"Using cwd as path for colorscheme robpheme.colors: {colorscheme_path}"
-    )
+    print(f"RUN: Using cwd as path for colorscheme robpheme.colors: {colorscheme_path}")
 
     colorscheme = load_json_colorscheme(colorscheme_path)
-    logger.info(f"parsed colorscheme from JSON: {colorscheme}")
+    print(f"RUN: parsed colorscheme from JSON: {colorscheme}")
 
-    logger.warning("Generating ghostty theme from colorscheme...")
+    print("RUN: Generating ghostty theme from colorscheme...")
     ghostty = create_ghostty_colorscheme(colorscheme)
-    logger.warning(f"Ghostty theme materialized:\n{ghostty}")
+    print("RUN: Ghostty theme materialized")
     with open(os.path.abspath("./ghostty/themes/robpheme"), "w") as gtheme:
         gtheme.write(ghostty)
-    logger.info("Wrote Ghostty theme file")
+    print("RUN: Wrote Ghostty theme file")
 
 
 if __name__ == "__main__":

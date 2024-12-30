@@ -1,28 +1,28 @@
 #!/usr/bin/env bash
+set -e
 
-if [[ -L ~/.config/nvim ]]; then
-  echo "nvim is already symlinked, skipping"
-else
-  echo "Linking nvim config dir"
-  ln -s ~/dotfiles/nvim ~/.config/nvim
-fi
+function link_maybe_backup() {
+  local config=$(realpath ./$1)
+  local filename="$2"
 
-if [[ -L ~/.config/ghostty ]]; then
-  echo "ghostty is already symlinked, skipping"
-else
-  echo "Linking ghostty config dir"
-  ln -s ~/dotfiles/ghostty ~/.config/ghostty
-fi
-
-if [[ -L ~/.zshrc ]]; then
-  echo ".zshrc is already a symlink, skipping"
-else
-  if [[ -f ~/.zshrc ]]; then
-    echo "Moving zshrc to a backup"
-    mv ~/.zshrc ~/.zshrc.bak
+  if [[ -L "$filename" ]]; then
+    echo "$filename is already symlinked, skipping"
+    return
   fi
 
-  echo "Linking zshrc"
-  ln -s ~/dotfiles/zshrc ~/.zshrc
-  echo "    REMINDER: You should source the new .zshrc now"
-fi
+  if [[ -e "$filename" ]]; then
+    echo "$filename already exists, but is not symlinked. Moving to $filename.bak"
+    mv "$filename" "$filename.bak"
+  fi
+
+  ln -sv "$config" "$filename"
+}
+
+echo -n "Materializing the colorscheme(s)..."
+/usr/bin/env python3 ./materialize_colorscheme.py 2 &>/dev/null
+echo "   Done."
+echo
+
+link_maybe_backup nvim ~/.config/nvim
+link_maybe_backup ghostty ~/.config/ghostty
+link_maybe_backup zshrc ~/.zshrc
