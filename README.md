@@ -1,21 +1,7 @@
 # Rob's Dotfiles
 
-## A very custom script to carry my configs around
+Very custom-to-me dotfiles setup that will symlink the files in this directory to their respective places.
 
-Configurations for:
+## Installation
 
-* hyprland -> Wayland tiling wm with neat-o animations
-* hyprpaper -> Wallpaper manager for hyprland
-* waybar -> Wayland-native bar with hyprland integrations
-* nvim -> Modified [LazyVim](https://www.lazyvim.org/) config
-* zsh -> self explanatory
-* tmux -> Super duper cool status line that isn't green
-
-
-## Usage:
-
-```bash
-$ ./dotify.sh
-```
-
-and then hope and pray.
+Run `./setup.sh` while in the base directory of the repo. If you're on windows, then switch to a better operating system and repeat the above step.

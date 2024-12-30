@@ -1,0 +1,23 @@
+# disable ligatures
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
+
+# small text is for chumps
+font-size = 15
+
+# love a block cursor
+cursor-style = block
+cursor-style-blink = true
+
+# 1 gigabyte scrollback buffer
+scrollback-limit = 1000000000
+
+# tbd
+theme = robpheme
+
+# window settings
+window-width = 130
+window-height = 40
+focus-follows-mouse = true
+copy-on-select = true
