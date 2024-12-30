@@ -1,9 +1,9 @@
 return {
-  { "ellisonleao/gruvbox.nvim" },
+  { "AlexvZyl/nordic.nvim" },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "gruvbox",
+      colorscheme = "nordic",
     },
   },
   {
@@ -30,7 +30,6 @@ return {
         "markdown_inline",
         "python",
         "query",
-        "react",
         "regex",
         "rust",
         "swift",
@@ -49,22 +48,9 @@ return {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
-        "black",
-        "rust-analyzer",
-        "flake8",
         "shellcheck",
         "shfmt",
         "stylua",
-      },
-    },
-  },
-  {
-    "nvim-telescope/telescope.nvim",
-    defaults = {
-      mappings = {
-        i = {
-          ["<esc>"] = require("telescope.actions").close,
-        },
       },
     },
   },
