@@ -1,0 +1,23 @@
+{
+  "hex": {
+    "background": "#191919",
+    "foreground": "#f1e2b8",
+    "cursor": "#d2b66c",
+    "black": "#2a220b",
+    "red": "#ff506e",
+    "green": "#5cb200",
+    "yellow": "#cc8a00",
+    "blue": "#4699ff",
+    "magenta": "#d057ff",
+    "cyan": "#00afaf",
+    "white": "#d2b66c",
+    "brightBlack": "#605023",
+    "brightRed": "#ff828f",
+    "brightGreen": "#6aca00",
+    "brightYellow": "#e79d00",
+    "brightBlue": "#73b1ff",
+    "brightMagenta": "#da84ff",
+    "brightCyan": "#00c7c7",
+    "brightWhite": "#f8f0db"
+  }
+}
