@@ -25,6 +25,11 @@ PROMPT="${user_host}:${current_dir} ${PR_PROMPT}"
 export EDITOR="nvim"
 export VISUAL="nvim"
 
+alias ls="ls --color=auto"
+alias grep="grep --color=auto"
+
 alias ll="ls -l"
 alias la="ls -al"
 alias lh="ls -alh"
+
+alias t="tree"
