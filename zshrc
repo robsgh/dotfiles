@@ -77,6 +77,9 @@ alias la="ls -a"
 alias ll="ls -alh"
 alias lru="ls -alrh"
 
+alias ...="../../"
+alias ....="../../../"
+
 alias f1="awk '{print \$1}'"
 alias f2="awk '{print \$2}'"
 alias f3="awk '{print \$3}'"
