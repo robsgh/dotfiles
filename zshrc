@@ -41,6 +41,7 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 
 alias t="tree"
+alias e="$EDITOR"
 
 alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}"
 alias egrep="grep -E"

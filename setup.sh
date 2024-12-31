@@ -2,7 +2,7 @@
 set -e
 
 function link_maybe_backup() {
-  local config=$(realpath ./$1)
+  local config="$(realpath ./$1)"
   local filename="$2"
 
   if [[ -L "$filename" ]]; then
@@ -19,7 +19,7 @@ function link_maybe_backup() {
 }
 
 echo -n "Materializing the colorscheme(s)..."
-/usr/bin/env python3 ./materialize_colorscheme.py 2 &>/dev/null
+/usr/bin/env python3 ./materialize_colorscheme.py >/dev/null
 echo "   Done."
 echo
 
