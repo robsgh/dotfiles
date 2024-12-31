@@ -1,7 +1,8 @@
 export PATH=$HOME/.local/bin:$HOME/.cargo/bin:$PATH
 
 #===== Prompt
-setopt prompt_subst
+setopt PROMPT_SUBST
+autoload -U colors && colors
 PR_USER='%F{green}%n%f'
 PR_USER_OP='%F{green}%#%f'
 PR_PROMPT='%f$ %f'
@@ -11,12 +12,9 @@ if [[ $UID -eq 0 ]]; then
   PR_PROMPT='%F{red}# %f'
 fi
 
+PR_HOST='%F{red}%m%f'
 if [[ -n "$SSH_CLIENT"  ||  -n "$SSH2_CLIENT" ]]; then
-  PR_HOST='%F{yellow}%2m%f'
-elif [[ "$TERM_PROGRAM" -eq "vscode" ]]; then
-  PR_HOST='%F{green}%2m%f'
-else
-  PR_HOST='%F{red}%2m%f'
+  PR_HOST='%F{yellow}%m%f'
 fi
 
 local user_host="${PR_USER}%F{cyan}@${PR_HOST}"
@@ -34,7 +32,35 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt APPEND_HISTORY
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
+setopt AUTO_CD
+setopt HIST_VERIFY
+setopt CORRECT
+setopt CORRECT_ALL
+
+#===== Completion
+# Add some completions settings
+setopt ALWAYS_TO_END
+setopt AUTO_LIST
+setopt AUTO_MENU
+setopt AUTO_PARAM_SLASH
 setopt COMPLETE_IN_WORD
+unsetopt MENU_COMPLETE
+setopt GLOB_COMPLETE
+setopt EXTENDED_GLOB
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-suffixes zstyle ':completion:*' expand prefix suffix 
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' rehash true
+zstyle ':completion::complete:*' use-cache true
+
+bindkey '^[[Z' reverse-menu-complete
+bindkey '^[[A' up-line-or-search
+bindkey '^[[B' down-line-or-search
+bindkey "^P" up-line-or-search
+bindkey "^N" down-line-or-search
+
+autoload -Uz compinit && compinit
 
 #===== Env & Aliases
 export EDITOR="nvim"
