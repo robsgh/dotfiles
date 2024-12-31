@@ -21,7 +21,10 @@ def has_file_changed(old_content: str, new_content: str) -> bool:
 
     for i in range(min(len(old_lines), len(new_lines))):
         if not old_lines[i]:
-            continue
+            if not new_lines[i]:
+                continue
+            else:
+                return True
         if old_lines[i][0] in comment_characters:
             continue
 
@@ -84,8 +87,11 @@ def run() -> None:
     print("RUN: Generating ghostty theme from colorscheme...")
     ghostty = create_ghostty_colorscheme(colorscheme)
 
-    with open(os.path.abspath("./ghostty/themes/rob"), "r") as gtheme:
-        current = gtheme.read()
+    if os.path.exists("./ghostty/themes/rob"):
+        with open(os.path.abspath("./ghostty/themes/rob"), "r") as gtheme:
+            current = gtheme.read()
+    else:
+        current = ""
 
     if has_file_changed(current, ghostty):
         with open(os.path.abspath("./ghostty/themes/rob"), "w") as gtheme:
