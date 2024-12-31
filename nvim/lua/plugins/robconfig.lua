@@ -1,9 +1,12 @@
 return {
-  { "AlexvZyl/nordic.nvim" },
   {
-    "LazyVim/LazyVim",
+    "tokyonight.nvim",
     opts = {
-      colorscheme = "nordic",
+      transparent = true,
+      styles = {
+        sidebars = "transparent",
+        floats = "transparent",
+      },
     },
   },
   {
