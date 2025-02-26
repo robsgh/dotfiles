@@ -3,11 +3,6 @@ return {
     "tokyonight.nvim",
     opts = {
       style = "night",
-      transparent = true,
-      styles = {
-        sidebars = "transparent",
-        floats = "transparent",
-      },
     },
   },
   {
@@ -36,11 +31,6 @@ return {
       },
     },
   },
-  { import = "lazyvim.plugins.extras.lang.json" },
-  { import = "lazyvim.plugins.extras.lang.rust" },
-  { import = "lazyvim.plugins.extras.lang.markdown" },
-  { import = "lazyvim.plugins.extras.formatting.black" },
-  { import = "lazyvim.plugins.extras.formatting.prettier" },
   {
     "williamboman/mason.nvim",
     opts = {
