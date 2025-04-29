@@ -18,13 +18,9 @@ function link_maybe_backup() {
   ln -sv "$config" "$filename"
 }
 
-echo -n "Materializing the colorscheme(s)..."
-/usr/bin/env python3 ./materialize_colorscheme.py >/dev/null
-echo "   Done."
-echo
-
 link_maybe_backup nvim ~/.config/nvim
 link_maybe_backup ghostty ~/.config/ghostty
 link_maybe_backup zshrc ~/.zshrc
 link_maybe_backup tmux.conf ~/.tmux.conf
 link_maybe_backup i3 ~/.config/i3
+link_maybe_backup hypr ~/.config/hypr

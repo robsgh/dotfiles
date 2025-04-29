@@ -1,4 +1,5 @@
 export PATH=$HOME/.local/bin:$HOME/.cargo/bin:$PATH
+source $HOME/.cargo/env
 
 #===== Prompt
 setopt PROMPT_SUBST
@@ -28,14 +29,18 @@ HISTSIZE=1000000000
 SAVEHIST=1000000000
 HISTCONTROL=ignoredups
 HISTFILE=~/.zsh_history.rob
-setopt HIST_IGNORE_ALL_DUPS
 setopt APPEND_HISTORY
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
-setopt AUTO_CD
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_VERIFY
-setopt CORRECT
-setopt CORRECT_ALL
+setopt HIST_EXPAND
+
+setopt AUTO_CD
+
+# emacs keybindings
+bindkey -e
 
 #===== Completion
 # Add some completions settings
@@ -49,18 +54,22 @@ setopt GLOB_COMPLETE
 setopt EXTENDED_GLOB
 
 zstyle ':completion:*' menu select
-zstyle ':completion:*' list-suffixes zstyle ':completion:*' expand prefix suffix 
+zstyle ':completion:*' list-suffixes zstyle ':completion:*' expand prefix suffix
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' rehash true
 zstyle ':completion::complete:*' use-cache true
 
 bindkey '^[[Z' reverse-menu-complete
-bindkey '^[[A' up-line-or-search
-bindkey '^[[B' down-line-or-search
-bindkey "^P" up-line-or-search
-bindkey "^N" down-line-or-search
 
 autoload -Uz compinit && compinit
+autoload -U history-search-end
+
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey '^[[A' history-beginning-search-backward-end
+bindkey '^[[B' history-beginning-search-forward-end
+bindkey "^P" up-line-or-search
+bindkey "^N" down-line-or-search
 
 #===== Env & Aliases
 export EDITOR="nvim"
@@ -84,3 +93,9 @@ alias f1="awk '{print \$1}'"
 alias f2="awk '{print \$2}'"
 alias f3="awk '{print \$3}'"
 alias f4="awk '{print \$4}'"
+
+function etemp() {
+  local tmpfile="$(mktemp)"
+  echo "Opening tempfile at $tmpfile"
+  $EDITOR "$tmpfile"
+}
