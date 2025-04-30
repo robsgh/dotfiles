@@ -1,52 +1,71 @@
-// -*- mode: jsonc -*-
 {
   "layer": "top",
   "position": "top",
   "height": 28,
   "modules-left": ["hyprland/workspaces"],
-  "modules-center": [],
-  "modules-right": ["network", "cpu", "memory", "disk", "pulseaudio", "clock"],
-
+  "modules-center": ["hyprland/window"],
+  "modules-right": [
+    "idle_inhibitor",
+    "network",
+    "cpu",
+    "memory",
+    "disk",
+    "pulseaudio",
+    "clock",
+    "tray",
+  ],
   "hyprland/workspaces": {
     "disable-scroll": true,
-    "format": "{name}",
     "on-click": "activate",
     "active-only": false,
+    "window-rewrite": {
+      "class<firefox>": "󰈹",
+      "class<ghostty>": "",
+      "class<ghostty> title<nvim>": "",
+    },
     "persistent-workspaces": {
-      "1": "1",
-      "2": "2",
+      "DP-1": [1],
+      "DP-2": [2],
     },
   },
-
+  "hyprland/window": {
+    "format": "{title}",
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": "",
+    },
+  },
   "network": {
     "format-wifi": " {essid} ({signalStrength}%)",
     "format-ethernet": "󰈀 {ipaddr}",
     "format-disconnected": "Disconnected",
-    "tooltip": true,
+    "tooltip-format": "{ipaddr} ({ifname}) via {gwaddr}/{cidr}",
+    "tooltop-format-disconnected": "Disconnected",
   },
-
   "cpu": {
     "format": " {usage}%",
   },
-
   "memory": {
     "format": "󰍛 {percentage}%",
   },
-
   "disk": {
-    "format": " {percentage_used}%",
+    "format": "  / {percentage_used}%",
     "path": "/",
   },
-
   "pulseaudio": {
     "format": " {volume}%",
     "format-muted": "󰖁 Muted",
     "scroll-step": 5,
     "on-click": "pavucontrol",
   },
-
   "clock": {
-    "format": " {:%a %b %d  %H:%M}",
+    "format": " {:%A, %B %d  %I:%M}",
     "tooltip-format": "{:%Y-%m-%d %H:%M:%S}",
+  },
+  "tray": {
+    "spacing": 10,
   },
 }
