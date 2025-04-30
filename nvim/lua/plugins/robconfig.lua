@@ -5,11 +5,11 @@ return {
       style = "night",
     },
   },
-  {
-    "mrcjkb/rustaceanvim",
-    version = "^5",
-    lazy = false,
-  },
+  -- {
+  --   "mrcjkb/rustaceanvim",
+  --   version = "^5",
+  --   lazy = false,
+  -- },
   {
     "folke/trouble.nvim",
     opts = { use_diagnostic_signs = true },
