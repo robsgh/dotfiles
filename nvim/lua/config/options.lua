@@ -3,7 +3,7 @@
 -- Add any additional options here
 
 -- vim.opt.background = "dark" -- or "light" for light mode
-vim.opt.number = true
+vim.opt.relativenumber = true
 vim.cmd([[
   augroup numbertoggle
     autocmd!

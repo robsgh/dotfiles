@@ -1,15 +1,10 @@
 return {
   {
-    "tokyonight.nvim",
+    "LazyVim/LazyVim",
     opts = {
-      style = "night",
+      colorscheme = "default",
     },
   },
-  -- {
-  --   "mrcjkb/rustaceanvim",
-  --   version = "^5",
-  --   lazy = false,
-  -- },
   {
     "folke/trouble.nvim",
     opts = { use_diagnostic_signs = true },
@@ -40,8 +35,7 @@ return {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
-        "shellcheck",
-        "shfmt",
+        "bashls",
         "stylua",
       },
     },
