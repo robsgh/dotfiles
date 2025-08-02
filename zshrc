@@ -86,8 +86,8 @@ alias la="ls -a"
 alias ll="ls -alh"
 alias lru="ls -alrh"
 
-alias ...="../../"
-alias ....="../../../"
+alias ...="cd ../../"
+alias ....="cd ../../../"
 
 alias f1="awk '{print \$1}'"
 alias f2="awk '{print \$2}'"
@@ -99,3 +99,9 @@ function etemp() {
   echo "Opening tempfile at $tmpfile"
   $EDITOR "$tmpfile"
 }
+
+#====== Quick Nav
+alias docs="cd ~/Documents"
+alias proj="cd ~/Projects"
+alias dl="cd ~/Downloads"
+alias dot="cd ~/dotfiles"
