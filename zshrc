@@ -104,4 +104,16 @@ function etemp() {
 alias docs="cd ~/Documents"
 alias proj="cd ~/Projects"
 alias dl="cd ~/Downloads"
-alias dot="cd ~/dotfiles"
+alias dots="cd ~/dotfiles"
+alias h="cd ~/"
+
+#======== Git Binds
+alias gitp="git pull"
+alias gitc="git commit"
+alias gita="git add"
+alias gitl="git log"
+alias gits="git status"
+alias gitco="git checkout"
+alias gitpu="git pull"
+alias gitam="git commit --amend"
+
