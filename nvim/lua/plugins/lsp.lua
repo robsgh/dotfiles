@@ -75,10 +75,7 @@ return {
           --
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if
-            client
-            and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf)
-          then
+          if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
             local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
               buffer = event.buf,
@@ -145,21 +142,23 @@ return {
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       local servers = {
-        zls = {},
-        rust_analyzer = {},
-        ruff = {},
-        pyrefly = {},
         lua_ls = {
           settings = {
             Lua = {
               diagnostics = {
                 globals = {
                   'vim',
+                  'Snacks',
                 },
               },
             },
           },
         },
+        pyrefly = {},
+        ruff = {},
+        rust_analyzer = {},
+        shfmt = {},
+        zls = {},
       }
 
       local ensure_installed = vim.tbl_keys(servers or {})

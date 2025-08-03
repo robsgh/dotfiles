@@ -15,8 +15,6 @@ return {
   {
     'lukas-reineke/indent-blankline.nvim',
     main = 'ibl',
-    ---@module "ibl"
-    ---@type ibl.config
     opts = {},
   },
   {
@@ -53,7 +51,6 @@ return {
   },
   {
     'folke/snacks.nvim',
-    ---@type snacks.Config
     opts = {
       terminal = {},
     },

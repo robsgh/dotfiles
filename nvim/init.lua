@@ -30,9 +30,10 @@ vim.o.inccommand = 'split'
 
 vim.o.cursorline = true
 
-vim.o.scrolloff = 20
+vim.o.scrolloff = 10
 
-vim.keymap.set('n', '<leader>l', '<cmd>Lazy<CR>', { desc = 'Open LazyVim' })
+vim.keymap.set('n', '<leader>l', '<cmd>Lazy<CR>', { desc = 'Open [L]azyVim' })
+vim.keymap.set('n', '<leader>m', '<cmd>Mason<CR>', { desc = 'Open [M]ason' })
 
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
