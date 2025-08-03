@@ -11,7 +11,6 @@ return {
           { '<leader>s', group = '[S]earch' },
           { '<leader>u', group = '[U]I' },
           { '<leader>c', group = '[C]ode' },
-          { '<leader>gr', group = 'LSP' },
         },
       },
     },

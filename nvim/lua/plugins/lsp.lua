@@ -103,9 +103,11 @@ return {
           --
           -- This may be unwanted, since they displace some of your code
           if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-            map('<leader>th', function()
+            vim.lsp.inlay_hint.enable(true)
+
+            map('<leader>uh', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-            end, '[T]oggle Inlay [H]ints')
+            end, '[U]I Inlay [H]ints')
           end
         end,
       })
@@ -158,7 +160,12 @@ return {
         ruff = {},
         rust_analyzer = {},
         shfmt = {},
-        zls = {},
+        zls = {
+          settings = {
+            enable_ast_check_diagnostics = true,
+            enable_semantic_tokens = true,
+          },
+        },
       }
 
       local ensure_installed = vim.tbl_keys(servers or {})
@@ -218,6 +225,7 @@ return {
         lua = { 'stylua' },
         python = { 'ruff' },
         rust = { 'rustfmt', lsp_format = 'fallback' },
+        zig = { 'zig fmt', lsp_format = 'fallback' },
       },
     },
   },

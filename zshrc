@@ -107,6 +107,8 @@ alias dl="cd ~/Downloads"
 alias dots="cd ~/dotfiles"
 alias ~="cd ~/"
 
+alias ee="e ~/.config/nvim"
+
 #======== Git Binds
 alias gia="git add"
 alias gic="git commit"
