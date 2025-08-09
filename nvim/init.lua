@@ -40,6 +40,9 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+vim.keymap.set('n', '<S-l>', '<cmd>bnext<CR>', { desc = 'Go to the next buffer' })
+vim.keymap.set('n', '<S-h>', '<cmd>bprevious<CR>', { desc = 'Go to the previous buffer' })
+
 vim.keymap.set('n', '<leader>f', '<cmd>Neotree reveal<CR>', { desc = 'Open NeoTree (reveal)' })
 vim.keymap.set('n', '<leader>ur', '<cmd>nohlsearch<CR>', { desc = '[U]I [R]emove Search' })
 

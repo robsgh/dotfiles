@@ -21,6 +21,7 @@ return {
     'windwp/nvim-autopairs',
     event = 'InsertEnter',
     config = true,
+    enabled = false,
   },
   {
     'folke/todo-comments.nvim',
