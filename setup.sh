@@ -25,3 +25,9 @@ link_maybe_backup tmux.conf ~/.tmux.conf
 link_maybe_backup i3 ~/.config/i3
 link_maybe_backup hypr ~/.config/hypr
 link_maybe_backup waybar ~/.config/waybar
+
+if grep "Arch Linux" /etc/os-release>/dev/null; then
+  echo "Installing arch packages"
+  mapfile -t PKGS < ./packages.x86_64.pacman
+  sudo pacman -Syu --needed "${PKGS[@]}"
+fi
