@@ -23,6 +23,14 @@ color_prompt=yes
 if [[ ! -v BASH_COMPLETION_VERSINFO && -f /usr/share/bash-completion/bash_completion ]]; then
   source /usr/share/bash-completion/bash_completion
 fi
+if command -v fzf &> /dev/null; then
+  if [[ -f /usr/share/fzf/completion.bash ]]; then
+    source /usr/share/fzf/completion.bash
+  fi
+  if [[ -f /usr/share/fzf/key-bindings.bash ]]; then
+    source /usr/share/fzf/key-bindings.bash
+  fi
+fi
 
 bind 'set completion-ignore-case on'
 bind 'set show-all-if-ambiguous on'
@@ -56,7 +64,6 @@ fi
 
 # ===== Aliases =====
 alias e="$EDITOR"
-alias se="sudo $EDITOR"
 
 alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}"
 alias egrep="grep -E"
@@ -94,16 +101,17 @@ etemp() {
   "$EDITOR" "$tmpfile"
 }
 
-# ===== Quick Navigation =====
+# Quick Navigation
 alias docs="cd ~/Documents"
-alias work="cd ~/Work"
 alias dl="cd ~/Downloads"
 alias dots="cd ~/dotfiles"
+alias proj="cd ~/Projects"
+alias ~="cd $HOME"
 
 alias ee="e ~/.bashrc && source ~/.bashrc"
 alias eee="e ~/.config/nvim"
 
-# ===== Git Shortcuts =====
+# Git Shortcuts
 alias gita="git add"
 alias gitc="git commit"
 alias gitca="git commit -a"
