@@ -1,4 +1,3 @@
-
 # If not running interactively, don't do anything (leave this at the top of this file)
 [[ $- != *i* ]] && return
 
@@ -18,6 +17,11 @@ set -o emacs
 
 force_color_prompt=yes
 color_prompt=yes
+if [[ -v SSH_TTY ]]; then
+  export PS1="\\[\\e[38;2;255;255;0m\\]\\u\\[\\e[0m\\]\\[\\e[38;2;0;204;204m\\]@\\[\\e[0m\\]\\[\\e[38;2;97;175;239m\\]\\h\\[\\e[0m\\] \\[\\e[38;2;152;195;121m\\]\\w\\[\\e[0m\\] \\[\\e[38;2;66;68;90m\\]\\\$\\[\\e[0m\\] "
+else
+  export PS1="\\[\\e[38;2;97;175;239m\\]\\u\\[\\e[0m\\]\\[\\e[38;2;0;204;204m\\]@\\[\\e[0m\\]\\[\\e[38;2;97;175;239m\\]\\h\\[\\e[0m\\] \\[\\e[38;2;152;195;121m\\]\\w\\[\\e[0m\\] \\[\\e[38;2;66;68;90m\\]\\\$\\[\\e[0m\\] "
+fi
 
 # Autocompletion
 if [[ ! -v BASH_COMPLETION_VERSINFO && -f /usr/share/bash-completion/bash_completion ]]; then
