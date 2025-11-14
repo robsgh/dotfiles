@@ -22,3 +22,4 @@ link_maybe_backup nvim ~/.config/nvim
 link_maybe_backup ghostty ~/.config/ghostty
 link_maybe_backup bashrc ~/.bashrc
 link_maybe_backup tmux.conf ~/.tmux.conf
+link_maybe_backup hypr ~/.config/hypr
