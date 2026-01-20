@@ -1,19 +1,9 @@
 return {
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    lazy = false,
     version = false,
-    build = function()
-      local TS = require 'nvim-treesitter'
-      if not TS.get_installed then
-        LazyVim.error 'Please restart Neovim and run `:TSUpdate` to use the `nvim-treesitter` **main** branch.'
-        return
-      end
-      -- make sure we're using the latest treesitter util
-      package.loaded['lazyvim.util.treesitter'] = nil
-      LazyVim.treesitter.build(function()
-        TS.update(nil, { summary = true })
-      end)
-    end,
+    build = ':TSUpdate',
     cmd = { 'TSUpdate', 'TSInstall', 'TSLog', 'TSUninstall' },
     branch = 'main',
     opts = {
@@ -42,6 +32,7 @@ return {
         'rust',
         'vim',
         'vimdoc',
+        'wgsl',
         'zig',
       },
       auto_install = true,
