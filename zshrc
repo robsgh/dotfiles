@@ -53,15 +53,16 @@ setopt MENU_COMPLETE
 setopt GLOB_COMPLETE
 setopt EXTENDED_GLOB
 
+autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' list-suffixes zstyle ':completion:*' expand prefix suffix
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' rehash true
 zstyle ':completion::complete:*' use-cache true
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 bindkey '^[[Z' reverse-menu-complete
 
-autoload -Uz compinit && compinit
 autoload -U history-search-end
 
 zle -N history-beginning-search-backward-end history-search-end
