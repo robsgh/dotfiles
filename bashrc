@@ -67,24 +67,24 @@ if command -v fzf &> /dev/null; then
 fi
 
 # ===== Aliases =====
-alias e="$EDITOR"
+alias e=" $EDITOR "
 
-alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}"
-alias egrep="grep -E"
+alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} "
+alias egrep="grep -E "
 
 if command -v eza &>/dev/null; then
-  alias ls="eza -h"
+  alias ls="eza -h "
 else
-  alias ls="ls -h --color=auto"
+  alias ls="ls -h --color=auto "
 fi
 
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 
 # ls chain to make life simplier
-alias la="ls -a"
-alias ll="la -l --icons=auto"
-alias lru="ll -r"
-alias l="ll"
+alias la="ls -a "
+alias ll="la -l --icons=auto "
+alias lru="ll -r "
+alias l="ll "
 
 alias ..="cd .."
 alias ...="cd ../../"
