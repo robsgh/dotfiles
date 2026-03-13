@@ -4,7 +4,6 @@ set -e
 function link_maybe_backup() {
   local config="$(realpath ./$1)"
   local filename="$2"
-  local filepath="$(dirname $filename)"
 
   if [[ -L "$filename" ]]; then
     echo "$filename is already symlinked, skipping"
@@ -16,12 +15,11 @@ function link_maybe_backup() {
     mv "$filename" "$filename.bak"
   fi
 
-  mkdir -p "$filepath"
   ln -sv "$config" "$filename"
 }
 
 link_maybe_backup nvim ~/.config/nvim
 link_maybe_backup ghostty ~/.config/ghostty
 link_maybe_backup bashrc ~/.bashrc
-link_maybe_backup tmux.conf ~/.config/tmux/tmux.conf
+link_maybe_backup tmux ~/.config/tmux
 link_maybe_backup hypr ~/.config/hypr
