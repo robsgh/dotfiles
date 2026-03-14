@@ -1,16 +1,37 @@
 #!/bin/bash
 set -euo pipefail
 
-# TODO: update these
-NAS_USER="nobody"
-NAS_HOST="notarealhost.com"
-NAS_BASE="/fakedir"
+NAS_USER="${NAS_USER:-$USER}"
+NAS_HOST="${NAS_HOST:-fixme}"
+NAS_BASE="${NAS_BASEPATH}/$NAS_USER/homedir-backups"
+SSH_KEY="${SSH_KEY:-notakey}"
+
+# number of snapshots to keep on the NAS
+KEEP_LATEST=7
+# how many rsyncs to do in parallel
+# I've found that since homedirs are many small files you can do quite a few parallel streams
+# due to the overhead of the RTT
+PARALLEL=${PARALLEL:-16}
+# file with paths to exclude from backup (caches, usually)
+EXCLUDES="$HOME/.config/backup-to-nas/excludes"
 
 DATE="$(date +%Y-%m-%d)"
+
+echo "====================================="
+echo "           Starting backup"
+echo "Remote User: $NAS_USER"
+echo "Remote Host: $NAS_HOST"
+echo "Remote Dest: $NAS_BASE/$DEST"
+echo "Keep Latest: $KEEP_LATEST"
+echo "Parallel:    $PARALLEL"
+echo "Excludes:    $EXCLUDES"
+echo "=====================================\n\n"
+
 
 log() { echo "backup-to-nas: $*"; }
 
 # Find the most recent snapper timeline snapshot for home
+log "event=find_snapshot"
 SNAP_NUM=$(snapper --csvout -c home list --columns number,cleanup | awk -F, '$2 == "timeline" {print $1}' | tail -1)
 
 if [[ -z "$SNAP_NUM" ]]; then
@@ -27,20 +48,30 @@ fi
 
 log "event=start snapshot=$SNAP_NUM dest=$NAS_BASE/$DATE"
 
-PREV=$(ssh -i "$HOME/.ssh/robkey" $NAS_USER@$NAS_HOST "ls -d $NAS_BASE/????-??-?? 2>/dev/null | tail -1")
-
-PARALLEL=${PARALLEL:-12}
-
-EXCLUDES="$HOME/.config/backup-to-nas/excludes"
+PREV=$(ssh -i "$SSH_KEY" $NAS_USER@$NAS_HOST "ls -d $NAS_BASE/????-??-?? 2>/dev/null | tail -1")
 
 run_rsync() {
   local entry="$1"
-  rsync -avzx --stats \
+  log "event=rsync_start dir=$SNAP/$entry"
+
+  # Strip the entry prefix from path-based patterns so they match correctly
+  # when this subdirectory is used as the rsync transfer root.
+  # e.g. ".config/chromium/Cache/" becomes "chromium/Cache/" when entry=".config"
+  local tmpexcl
+  tmpexcl=$(mktemp)
+  local escaped_entry
+  escaped_entry=$(printf '%s' "$entry" | sed 's/[.^$*[\]/\\&/g')
+  sed "s|^${escaped_entry}/||" "$EXCLUDES" > "$tmpexcl"
+
+  rsync -avzx \
     ${PREV:+--link-dest="$PREV/$entry"} \
-    --exclude-from="$EXCLUDES" \
-    -e "ssh -i $HOME/.ssh/robkey -c aes128-gcm@openssh.com" \
+    --exclude-from="$tmpexcl" \
+    -e "ssh -i $SSH_KEY" \
     "$SNAP/$entry/" \
     "$NAS_USER@$NAS_HOST:$NAS_BASE/$DATE/$entry/"
+
+  rm -f "$tmpexcl"
+  log "event=rsync_done dir=$SNAP/$entry"
 }
 export -f run_rsync
 export PREV SNAP NAS_USER NAS_HOST NAS_BASE DATE HOME EXCLUDES
@@ -50,24 +81,28 @@ INNER=$(find "$SNAP" -maxdepth 1 -mindepth 1 -type d ! -name '.snapshots' -print
 export INNER
 
 # mkdir that before we start
-log "event=mkdir snapshot=$SNAP_NUM dest=$NAS_BASE/$DATE/$INNER"
-ssh -i "$HOME/.ssh/robkey" $NAS_USER@$NAS_HOST "mkdir -p $NAS_BASE/$DATE/$INNER"
+log "event=mkdir_homedir snapshot=$SNAP_NUM dest=$NAS_BASE/$DATE/$INNER"
+ssh -i "$SSH_KEY" $NAS_USER@$NAS_HOST "mkdir -p $NAS_BASE/$DATE/$INNER"
 
 # Sync root-level files (dotfiles etc) in a single non-recursive pass
-rsync -avzx --stats --no-recursive \
+log "event=rsync_homedir_start"
+rsync -avzx --no-recursive \
   ${PREV:+--link-dest="$PREV/$INNER/"} \
   --exclude-from="$EXCLUDES" \
-  -e "ssh -i $HOME/.ssh/robkey -c aes128-gcm@openssh.com" \
+  -e "ssh -i $SSH_KEY" \
   "$SNAP/$INNER/" \
   "$NAS_USER@$NAS_HOST:$NAS_BASE/$DATE/$INNER/"
+log "event=rsync_homedir_done"
 
 # Sync subdirectories in parallel
+log "event=sync_homedir_rec_start"
 find "$SNAP/$INNER" -maxdepth 1 -mindepth 1 -type d -printf '%f\0' \
   | xargs -0 -P"$PARALLEL" -I{} bash -c 'run_rsync "$@"' _ "$INNER/{}"
+log "event=sync_homedir_rec_done"
 
-log "event=prune keeping=14"
+log "event=prune keeping=$KEEP_LATEST"
 
-ssh -i "$HOME/.ssh/robkey" $NAS_USER@$NAS_HOST \
-  "ls -d $NAS_BASE/????-??-?? 2>/dev/null | head -n -14 | xargs -r rm -rf"
+ssh -i "$SSH_KEY" $NAS_USER@$NAS_HOST \
+  "ls -d $NAS_BASE/????-??-?? 2>/dev/null | head -n -$KEEP_LATEST | xargs -r rm -vrf"
 
 log "event=done"
