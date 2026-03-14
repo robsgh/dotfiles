@@ -8,10 +8,8 @@ SSH_KEY="${SSH_KEY:-notakey}"
 
 # number of snapshots to keep on the NAS
 KEEP_LATEST=7
-# how many rsyncs to do in parallel
-# I've found that since homedirs are many small files you can do quite a few parallel streams
-# due to the overhead of the RTT
-PARALLEL=${PARALLEL:-16}
+# how many rsyncs to do in parallel (10 is the default concurrent SSH attempts allowed by sshd in debian)
+PARALLEL=${PARALLEL:-10}
 # file with paths to exclude from backup (caches, usually)
 EXCLUDES="$HOME/.config/backup-to-nas/excludes"
 
@@ -21,7 +19,7 @@ echo "====================================="
 echo "           Starting backup"
 echo "Remote User: $NAS_USER"
 echo "Remote Host: $NAS_HOST"
-echo "Remote Dest: $NAS_BASE/$DEST"
+echo "Remote Dest: $NAS_BASE/$DATE"
 echo "Keep Latest: $KEEP_LATEST"
 echo "Parallel:    $PARALLEL"
 echo "Excludes:    $EXCLUDES"
@@ -73,7 +71,7 @@ run_rsync() {
   rm -f "$tmpexcl"
   log "event=rsync_done dir=$SNAP/$entry"
 }
-export -f run_rsync
+export -f run_rsync log
 export PREV SNAP NAS_USER NAS_HOST NAS_BASE DATE HOME EXCLUDES
 
 # The snapshot contains one dir (the homedir). Split by its contents.
