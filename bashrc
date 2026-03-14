@@ -4,6 +4,8 @@
 # ===== PATH & Cargo =====
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
+export PATH="$PATH:$HOME/.local/bin/"
+
 # ===== History =====
 HISTFILE=~/.bash_history
 HISTSIZE=1000000000
@@ -96,6 +98,11 @@ alias f3="awk '{print \$3}'"
 alias f4="awk '{print \$4}'"
 alias f5="awk '{print \$4}'"
 
+alias sc="systemctl "
+alias scu="systemctl --user "
+alias jc="journalctl "
+alias jcu="journalctl --user "
+
 # Temporary edit file
 etemp() {
   local tmpfile
@@ -110,7 +117,7 @@ alias docs="cd ~/Documents"
 alias dl="cd ~/Downloads"
 alias dots="cd ~/dotfiles"
 alias proj="cd ~/Projects"
-alias ~="cd $HOME"
+alias h="cd $HOME"
 
 alias ee="e ~/.bashrc && source ~/.bashrc"
 alias eee="e ~/.config/nvim"
