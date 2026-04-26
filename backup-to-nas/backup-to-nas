@@ -13,12 +13,13 @@ PARALLEL=${PARALLEL:-10}
 # file with paths to exclude from backup (caches, usually)
 EXCLUDES="$HOME/.config/backup-to-nas/excludes"
 
-DATE="$(date +%Y-%m-%d)"
+DATE="$(date -u +%FT%H%M%SZ)"
 
 echo "====================================="
 echo "           Starting backup"
 echo "Remote User: $NAS_USER"
 echo "Remote Host: $NAS_HOST"
+echo "Date:        $DATE"
 echo "Remote Dest: $NAS_BASE/$DATE"
 echo "Keep Latest: $KEEP_LATEST"
 echo "Parallel:    $PARALLEL"
@@ -46,7 +47,13 @@ fi
 
 log "event=start snapshot=$SNAP_NUM dest=$NAS_BASE/$DATE"
 
-PREV=$(ssh -i "$SSH_KEY" $NAS_USER@$NAS_HOST "ls -d $NAS_BASE/????-??-?? 2>/dev/null | tail -1")
+log "event=find_prev_snapshot"
+PREV=$(ssh -i "$SSH_KEY" $NAS_USER@$NAS_HOST "ls -d $NAS_BASE/????-??-??T??????Z 2>/dev/null | tail -1")
+if [[ -z "$PREV" ]]; then
+  log "event=no_prev_snapshot";
+else
+  log "event=found_prev_snapshot name=$PREV";
+fi
 
 run_rsync() {
   local entry="$1"
@@ -82,6 +89,10 @@ export INNER
 log "event=mkdir_homedir snapshot=$SNAP_NUM dest=$NAS_BASE/$DATE/$INNER"
 ssh -i "$SSH_KEY" $NAS_USER@$NAS_HOST "mkdir -p $NAS_BASE/$DATE/$INNER"
 
+BACKUP_TIMESTAMP_PATH="$NAS_BASE/$DATE/$INNER/000-backup-timestamp"
+log "event=write_timestamp dest=$BACKUP_TIMESTAMP_PATH"
+ssh -i "$SSH_KEY" $NAS_USER@$NAS_HOST "echo 'Backup from $DATE' > $BACKUP_TIMESTAMP_PATH"
+
 # Sync root-level files (dotfiles etc) in a single non-recursive pass
 log "event=rsync_homedir_start"
 rsync -avzx --no-recursive \
@@ -101,6 +112,6 @@ log "event=sync_homedir_rec_done"
 log "event=prune keeping=$KEEP_LATEST"
 
 ssh -i "$SSH_KEY" $NAS_USER@$NAS_HOST \
-  "ls -d $NAS_BASE/????-??-?? 2>/dev/null | head -n -$KEEP_LATEST | xargs -r rm -vrf"
+  "ls -d $NAS_BASE/????-??-??T??????Z 2>/dev/null | head -n -$KEEP_LATEST | xargs -r rm -rf"
 
 log "event=done"

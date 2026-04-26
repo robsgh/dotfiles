@@ -69,7 +69,7 @@ if command -v fzf &> /dev/null; then
 fi
 
 # ===== Aliases =====
-alias e=" $EDITOR "
+alias e="$EDITOR "
 
 alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} "
 alias egrep="grep -E "
