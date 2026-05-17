@@ -35,6 +35,7 @@ link_maybe_backup hypr ~/.config/hypr
 link_maybe_backup fastfetch ~/.config/fastfetch
 link_maybe_backup hyprland-preview-share-picker ~/.config/hyprland-preview-share-picker
 link_maybe_backup kitty ~/.config/kitty
+link_maybe_backup mako ~/.config/mako
 link_maybe_backup swayosd ~/.config/swayosd
 link_maybe_backup uwsm ~/.config/uwsm
 link_maybe_backup walker ~/.config/walker
