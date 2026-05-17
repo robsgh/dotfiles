@@ -121,11 +121,16 @@ alias h="cd $HOME"
 
 alias ee="e ~/.bashrc && source ~/.bashrc"
 alias eee="e ~/.config/nvim"
+alias cl="claude"
+alias clr="claude -r"
+alias cx="codex"
 
 # Git Shortcuts
 alias gita="git add"
 alias gitc="git commit"
+alias gite="git show"
 alias gitca="git commit -a"
+alias gitcaa="git commit -a --amend --no-edit"
 alias gitco="git checkout"
 alias gitf="git fetch"
 alias gitl="git log"
