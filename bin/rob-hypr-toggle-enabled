@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$script_dir:$PATH"
+
+# Desktop:summary=Check if a Hyprland toggle is currently enabled.
+# Desktop:args=<flag-name>
+
+[[ -f "$HOME/.local/state/dotfiles/toggles/hypr/$1.conf" ]]

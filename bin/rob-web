@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$script_dir:$PATH"
+
+exec rob-launch-browser "$@"

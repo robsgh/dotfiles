@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$script_dir:$PATH"
+
+# Desktop:summary=Display keyboard brightness level using SwayOSD on the current monitor.
+# Desktop:args=<0-100>
+# Desktop:examples=Desktop swayosd kbd brightness 0 | Desktop swayosd kbd brightness 50 | Desktop swayosd kbd brightness 100
+
+percent="$1"
+
+progress="$(awk -v p="$percent" 'BEGIN{printf "%.2f", p/100}')"
+[[ $progress == "0.00" ]] && progress="0.01"
+
+rob-osd \
+  --custom-icon keyboard-brightness-symbolic \
+  --custom-progress "$progress" \
+  --custom-progress-text "${percent}%"

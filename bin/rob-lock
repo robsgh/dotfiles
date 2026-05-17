@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$script_dir:$PATH"
+
+# Desktop:summary=Lock the computer and turn off the display
+# Desktop:group=system
+# Desktop:name=lock
+# Desktop:examples=Desktop system lock
+
+if ! pidof hyprlock >/dev/null; then
+  (
+    hyprlock
+    rob-wake
+  ) &
+fi
+
+# Set keyboard layout to default (first layout)
+hyprctl switchxkblayout all 0 > /dev/null 2>&1
+
+# Ensure 1password is locked
+if pgrep -x "1password" >/dev/null; then
+  1password --lock &
+fi
+
+# Avoid running screensaver when locked
+pkill -f org.rob.screensaver
+
+if [[ ${ROB_LOCK_ONLY:-false} != "true" ]]; then
+  (
+    sleep 3
+    pidof hyprlock >/dev/null || exit 0
+    rob-keyboard-brightness off
+    rob-brightness off
+  ) &
+fi

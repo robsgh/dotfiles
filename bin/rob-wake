@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$script_dir:$PATH"
+
+# Desktop:summary=Wake displays and restore brightness after idle
+# Desktop:group=system
+# Desktop:name=wake
+# Desktop:examples=Desktop system wake
+
+rob-brightness on
+rob-keyboard-brightness restore

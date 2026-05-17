@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$script_dir:$PATH"
+
+if rob-screenrecord --stop-recording; then
+  exit 0
+fi
+
+choice=$(
+  printf '%s\n' \
+    "No audio" \
+    "Desktop audio" \
+    "Desktop and microphone audio" |
+    rob-launcher --dmenu --width 360 --minheight 1 --maxheight 200 -p "Screen record"
+)
+
+case "$choice" in
+  "No audio") rob-screenrecord ;;
+  "Desktop audio") rob-screenrecord --with-desktop-audio ;;
+  "Desktop and microphone audio") rob-screenrecord --with-desktop-audio --with-microphone-audio ;;
+esac

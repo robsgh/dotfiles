@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$script_dir:$PATH"
+
+# Desktop:summary=Returns true when an external monitor is physically connected.
+
+for status in /sys/class/drm/card*-*/status; do
+  [[ "$status" == *-eDP-*/status ]] && continue
+  [[ "$(<"$status")" == "connected" ]] && exit 0
+done
+exit 1

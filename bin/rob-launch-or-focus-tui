@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$script_dir:$PATH"
+
+app_id="org.rob.$(basename "$1")"
+launch_command="rob-launch-tui $*"
+
+exec rob-launch-or-focus "$app_id" "$launch_command"

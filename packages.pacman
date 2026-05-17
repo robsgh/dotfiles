@@ -2,6 +2,7 @@ amd-ucode
 base
 base-devel
 bash-completion
+blueberry-wayland
 brightnessctl
 btop
 btrfs-progs
@@ -13,6 +14,14 @@ cups-pdf
 dhcpcd
 dust
 efibootmgr
+elephant
+elephant-calc
+elephant-desktopapplications
+elephant-files
+elephant-runner
+elephant-unicode
+elephant-websearch
+elephant-wireplumber
 evince
 eza
 fastfetch
@@ -26,6 +35,7 @@ ghostty
 git
 gnome-calculator
 gnome-keyring
+gnome-themes-extra
 gpu-screen-recorder
 grim
 gst-plugin-pipewire
@@ -43,6 +53,7 @@ inetutils
 inxi
 iwd
 kdenlive
+lib32-libxrender
 libnewt
 libva-nvidia-driver
 limine
@@ -63,6 +74,7 @@ nvidia-settings
 nvidia-utils
 obs-studio
 obsidian
+openai-codex
 openssh
 pamixer
 pipewire
@@ -95,12 +107,16 @@ ttf-sourcecodepro-nerd
 ufw
 uwsm
 vim
+walker
 waybar
 wget
+wine
+winetricks
 wireless-regdb
 wiremix
 wireplumber
 xdg-desktop-portal-hyprland
+xdg-terminal-exec
 yay
 yay-debug
 zram-generator

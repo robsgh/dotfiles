@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$script_dir:$PATH"
+
+# Desktop:summary=Enable, disable, toggle, or recover the internal laptop display
+# Desktop:args=<on|off|toggle|recover>
+
+TOGGLE="internal-monitor-disable"
+TOGGLE_FLAG="$HOME/.local/state/dotfiles/toggles/hypr/$TOGGLE.conf"
+MIRROR_TOGGLE="internal-monitor-mirror"
+
+# Get internal monitor name dynamically
+INTERNAL=$(hyprctl monitors -j | jq -r '.[] | select(.name | contains("eDP")).name' | head -n 1)
+
+enable() {
+  if rob-hypr-toggle-enabled "$TOGGLE"; then
+    rob-hypr-toggle --disabled-notification "󰍹    Laptop display enabled" "$TOGGLE"
+  fi
+}
+
+disable() {
+  if ! rob-external-monitors; then
+    notify-send -u low "󰍹    Can't disable the only active display"
+    exit 1
+  fi
+  if rob-hypr-toggle-disabled "$TOGGLE" && rob-hypr-toggle-disabled "$MIRROR_TOGGLE"; then
+    mkdir -p "$(dirname "$TOGGLE_FLAG")"
+    echo "monitor=$INTERNAL,disable" >"$TOGGLE_FLAG"
+    notify-send -u low "󰍹    Laptop display disabled"
+    hyprctl reload
+  fi
+}
+
+recover() {
+  if ! rob-external-monitors && rob-hypr-toggle-enabled "$TOGGLE"; then
+    rob-hypr-toggle "$TOGGLE"
+  fi
+}
+
+case "$1" in
+  on) enable ;;
+  off) disable ;;
+  toggle) if rob-hypr-toggle-enabled "$TOGGLE"; then enable; else disable; fi ;;
+  recover) recover ;;
+  *)
+    echo "Usage: $(basename "$0") {on|off|toggle|recover}" >&2
+    exit 1
+    ;;
+esac

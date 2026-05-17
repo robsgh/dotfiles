@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$script_dir:$PATH"
+
+# Desktop:summary=Enable, disable, toggle, or recover mirroring the internal display to an external monitor
+# Desktop:args=<on|off|toggle|recover>
+
+TOGGLE="internal-monitor-mirror"
+TOGGLE_FLAG="$HOME/.local/state/dotfiles/toggles/hypr/$TOGGLE.conf"
+DISABLE_TOGGLE="internal-monitor-disable"
+
+# Get names dynamically
+INTERNAL=$(hyprctl monitors -j | jq -r '.[] | select(.name | contains("eDP")).name' | head -n 1)
+# Get the first available external monitor
+EXTERNAL=$(hyprctl monitors -j | jq -r '.[] | select(.name | contains("eDP") | not).name' | head -n 1)
+
+enable() {
+  if [[ -z "$EXTERNAL" ]]; then
+    notify-send -u low "󰍹    No external monitors found for mirror"
+    exit 1
+  fi
+
+  if [[ -z "$INTERNAL" ]]; then
+    notify-send -u low "󰍹    No laptop monitor found to mirror"
+    exit 1
+  fi
+
+  if rob-hypr-toggle-enabled "$DISABLE_TOGGLE"; then
+    rob-hypr-toggle "$DISABLE_TOGGLE"
+  fi
+
+  if rob-hypr-toggle-disabled "$TOGGLE"; then
+    mkdir -p "$(dirname "$TOGGLE_FLAG")"
+    echo "monitor=$EXTERNAL, preferred, auto, 1, mirror, $INTERNAL" > "$TOGGLE_FLAG"
+    notify-send -u low "󰍹    Mirroring enabled ($EXTERNAL)"
+    hyprctl reload
+  fi
+}
+
+disable() {
+  if rob-hypr-toggle-enabled "$TOGGLE"; then
+    rob-hypr-toggle --disabled-notification "󰍹    Extended mode restored" "$TOGGLE"
+  fi
+}
+
+recover() {
+  if ! rob-external-monitors && rob-hypr-toggle-enabled "$TOGGLE"; then
+    rob-hypr-toggle "$TOGGLE"
+  fi
+}
+
+case "$1" in
+  on) enable ;;
+  off) disable ;;
+  toggle) if rob-hypr-toggle-enabled "$TOGGLE"; then disable; else enable; fi ;;
+  recover) recover ;;
+  *)
+    echo "Usage: $(basename "$0") {on|off|toggle|recover}" >&2
+    exit 1
+    ;;
+esac

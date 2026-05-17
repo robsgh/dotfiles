@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$script_dir:$PATH"
+
+# Watch Hyprland monitor removal events and recover display toggles.
+[[ -n ${XDG_RUNTIME_DIR:-} && -n ${HYPRLAND_INSTANCE_SIGNATURE:-} ]] || exit 0
+
+socket="$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock"
+[[ -S "$socket" ]] || exit 0
+
+recover_toggles() {
+  rob-monitor-internal recover
+  rob-monitor-internal-mirror recover
+}
+
+if command -v socat >/dev/null 2>&1; then
+  socat -U - "UNIX-CONNECT:$socket" | while read -r event; do
+    case "$event" in
+      monitorremoved\>\>*|monitorremovedv2\>\>*) recover_toggles ;;
+    esac
+  done
+  exit 0
+fi
+
+command -v hyprctl >/dev/null 2>&1 || exit 0
+command -v jq >/dev/null 2>&1 || exit 0
+
+last_monitors="$(hyprctl monitors -j | jq -r '.[].name' | sort | tr '\n' ' ')"
+
+while sleep 2; do
+  monitors="$(hyprctl monitors -j | jq -r '.[].name' | sort | tr '\n' ' ')"
+  if [[ "$monitors" != "$last_monitors" ]]; then
+    recover_toggles
+    last_monitors="$monitors"
+  fi
+done

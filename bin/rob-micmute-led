@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$script_dir:$PATH"
+
+# Desktop:summary=Set the mic-mute indicator LED on laptops that expose a platform::micmute LED node.
+# Desktop:args=<on|off>
+
+if [[ -e /sys/class/leds/platform::micmute/brightness ]]; then
+  case "$1" in
+    on)  value=1 ;;
+    off) value=0 ;;
+    *)   echo "Usage: $(basename "$0") <on|off>" >&2; exit 1 ;;
+  esac
+
+  brightnessctl --device="platform::micmute" set "$value" >/dev/null 2>&1 || true
+fi

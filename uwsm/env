@@ -1,5 +1,7 @@
 # Changes require a restart to take effect.
 
+export PATH=$HOME/.local/bin:$PATH
+
 # Set default terminal and editor
 source ~/.config/uwsm/default
 

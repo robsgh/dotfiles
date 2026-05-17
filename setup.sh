@@ -18,6 +18,15 @@ function link_maybe_backup() {
   ln -sv "$config" "$filename"
 }
 
+function link_bin_scripts() {
+  mkdir -p ~/.local/bin
+
+  for script in ./bin/*; do
+    [[ -f "$script" ]] || continue
+    link_maybe_backup "bin/$(basename "$script")" ~/.local/bin/"$(basename "$script")"
+  done
+}
+
 link_maybe_backup nvim ~/.config/nvim
 link_maybe_backup ghostty ~/.config/ghostty
 link_maybe_backup bashrc ~/.bashrc
@@ -31,3 +40,4 @@ link_maybe_backup uwsm ~/.config/uwsm
 link_maybe_backup walker ~/.config/walker
 link_maybe_backup waybar ~/.config/waybar
 link_maybe_backup xournalpp ~/.config/xournalpp
+link_bin_scripts

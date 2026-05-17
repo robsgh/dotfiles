@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$script_dir:$PATH"
+
+# Desktop:summary=Wrapper for swayosd-client that targets the currently focused monitor.
+# Desktop:args=<swayosd-client-args...>
+
+exec swayosd-client --monitor "$(rob-monitor-focused)" "$@"

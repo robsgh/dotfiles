@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$script_dir:$PATH"
+
+# Desktop:summary=Print the name of the currently focused Hyprland monitor.
+
+hyprctl monitors -j | jq -r '.[] | select(.focused == true).name'
