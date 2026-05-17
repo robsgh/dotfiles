@@ -45,6 +45,11 @@ if [[ ! -d "$SNAP" ]]; then
   exit 1
 fi
 
+if [[ ! -r "$EXCLUDES" ]]; then
+  log "event=abort reason=excludes_missing path=$EXCLUDES"
+  exit 1
+fi
+
 log "event=start snapshot=$SNAP_NUM dest=$NAS_BASE/$DATE"
 
 log "event=find_prev_snapshot"
@@ -57,25 +62,56 @@ fi
 
 run_rsync() {
   local entry="$1"
+  local rel_entry="${entry#"$INNER/"}"
   log "event=rsync_start dir=$SNAP/$entry"
 
   # Strip the entry prefix from path-based patterns so they match correctly
   # when this subdirectory is used as the rsync transfer root.
   # e.g. ".config/chromium/Cache/" becomes "chromium/Cache/" when entry=".config"
+  if awk -v entry="$rel_entry" '
+    /^[[:space:]]*($|#)/ { next }
+    {
+      pattern = $0
+      sub(/^[[:space:]]+/, "", pattern)
+      sub(/[[:space:]]+$/, "", pattern)
+      if (pattern == entry || pattern == entry "/") {
+        found = 1
+      }
+    }
+    END { exit found ? 0 : 1 }
+  ' "$EXCLUDES"; then
+    log "event=rsync_skip_excluded dir=$SNAP/$entry pattern=$rel_entry/"
+    return 0
+  fi
+
   local tmpexcl
   tmpexcl=$(mktemp)
-  local escaped_entry
-  escaped_entry=$(printf '%s' "$entry" | sed 's/[.^$*[\]/\\&/g')
-  sed "s|^${escaped_entry}/||" "$EXCLUDES" > "$tmpexcl"
+  awk -v entry="$rel_entry" '
+    /^[[:space:]]*($|#)/ { print; next }
+    {
+      prefix = entry "/"
+      if (index($0, prefix) == 1) {
+        print substr($0, length(prefix) + 1)
+      } else {
+        print
+      }
+    }
+  ' "$EXCLUDES" > "$tmpexcl"
 
+  local rsync_status=0
   rsync -avzx \
     ${PREV:+--link-dest="$PREV/$entry"} \
     --exclude-from="$tmpexcl" \
     -e "ssh -i $SSH_KEY" \
     "$SNAP/$entry/" \
-    "$NAS_USER@$NAS_HOST:$NAS_BASE/$DATE/$entry/"
+    "$NAS_USER@$NAS_HOST:$NAS_BASE/$DATE/$entry/" \
+    || rsync_status=$?
 
   rm -f "$tmpexcl"
+  if (( rsync_status != 0 )); then
+    return "$rsync_status"
+  fi
+
   log "event=rsync_done dir=$SNAP/$entry"
 }
 export -f run_rsync log
