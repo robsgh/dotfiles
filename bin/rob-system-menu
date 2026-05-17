@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$script_dir:$PATH"
+
+# Desktop:summary=Show a quick system menu for screensaver, lock, suspend, logout, restart, and shutdown.
+# Desktop:group=system
+# Desktop:name=system menu
+# Desktop:examples=Desktop system menu
+
+options="Screensaver
+Lock"
+
+if grep -qwE "mem|freeze" /sys/power/state 2>/dev/null; then
+  options="$options
+Suspend"
+fi
+
+if grep -qw disk /sys/power/state 2>/dev/null; then
+  options="$options
+Hibernate"
+fi
+
+options="$options
+Logout
+Restart
+Shutdown"
+
+choice=$(printf '%s\n' "$options" | rob-launcher --dmenu --width 295 --minheight 1 --maxheight 360 -p "System")
+
+case "$choice" in
+  Screensaver)
+    rob-screensaver-launch force
+    ;;
+  Lock)
+    rob-lock
+    ;;
+  Suspend)
+    systemctl suspend
+    ;;
+  Hibernate)
+    systemctl hibernate
+    ;;
+  Logout)
+    if command -v uwsm >/dev/null 2>&1; then
+      uwsm stop
+    else
+      hyprctl dispatch exit
+    fi
+    ;;
+  Restart)
+    systemctl reboot
+    ;;
+  Shutdown)
+    systemctl poweroff
+    ;;
+esac
