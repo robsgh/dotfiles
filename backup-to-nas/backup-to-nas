@@ -8,8 +8,8 @@ SSH_KEY="${SSH_KEY:-notakey}"
 
 # number of snapshots to keep on the NAS
 KEEP_LATEST=7
-# how many rsyncs to do in parallel (10 is the default concurrent SSH attempts allowed by sshd in debian)
-PARALLEL=${PARALLEL:-10}
+# how many rsyncs to do in parallel
+PARALLEL=${PARALLEL:-4}
 # file with paths to exclude from backup (caches, usually)
 EXCLUDES="$HOME/.config/backup-to-nas/excludes"
 
@@ -95,7 +95,8 @@ ssh -i "$SSH_KEY" $NAS_USER@$NAS_HOST "echo 'Backup from $DATE' > $BACKUP_TIMEST
 
 # Sync root-level files (dotfiles etc) in a single non-recursive pass
 log "event=rsync_homedir_start"
-rsync -avzx --no-recursive \
+find "$SNAP/$INNER" -maxdepth 1 -mindepth 1 ! -type d -printf '%f\0' \
+  | rsync -avzx --files-from=- --from0 \
   ${PREV:+--link-dest="$PREV/$INNER/"} \
   --exclude-from="$EXCLUDES" \
   -e "ssh -i $SSH_KEY" \

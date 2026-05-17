@@ -1,0 +1,6 @@
+# Changes require a restart to take effect.
+
+export TERMINAL=xdg-terminal-exec
+
+export EDITOR=nvim
+

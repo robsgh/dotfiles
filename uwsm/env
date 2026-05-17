@@ -1,0 +1,7 @@
+# Changes require a restart to take effect.
+
+# Set default terminal and editor
+source ~/.config/uwsm/default
+
+# Activate mise if present on the system
+command -v mise >/dev/null 2>&1 && eval "$(mise activate bash --shims)"

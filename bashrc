@@ -76,15 +76,17 @@ alias egrep="grep -E "
 
 if command -v eza &>/dev/null; then
   alias ls="eza -h "
+  alias ll="ls -al --icons=auto "
+  alias lt="ll --tree "
 else
   alias ls="ls -h --color=auto "
+  alias ll="la -l "
 fi
 
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 
 # ls chain to make life simplier
 alias la="ls -a "
-alias ll="la -l --icons=auto "
 alias lru="ll -r "
 alias l="ll "
 
