@@ -16,9 +16,14 @@ dust
 efibootmgr
 elephant
 elephant-calc
+elephant-clipboard
 elephant-desktopapplications
 elephant-files
+elephant-menus
+elephant-providerlist
 elephant-runner
+elephant-symbols
+elephant-todo
 elephant-unicode
 elephant-websearch
 elephant-wireplumber
@@ -115,6 +120,7 @@ winetricks
 wireless-regdb
 wiremix
 wireplumber
+wl-clipboard
 xdg-desktop-portal-hyprland
 xdg-terminal-exec
 yay

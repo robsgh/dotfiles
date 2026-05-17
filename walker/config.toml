@@ -15,8 +15,17 @@ symbols = 1 # providers to be queried by default
 [providers]
 max_results = 256 # 256 should be enough for everyone
 default = [
+  "calc",
+  "clipboard",
   "desktopapplications",
+  "files",
+  "providerlist",
+  "runner",
+  "symbols",
+  "todo",
+  "unicode",
   "websearch",
+  "wireplumber",
 ]
 
 [[providers.prefixes]]

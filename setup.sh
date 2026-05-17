@@ -27,11 +27,24 @@ function link_bin_scripts() {
   done
 }
 
+function setup_walker_elephant() {
+  mkdir -p ~/.config/autostart ~/.config/systemd/user/app-walker@autostart.service.d
+
+  link_maybe_backup walker-autostart/walker.desktop ~/.config/autostart/walker.desktop
+  link_maybe_backup walker-systemd/restart.conf ~/.config/systemd/user/app-walker@autostart.service.d/restart.conf
+
+  if command -v elephant >/dev/null 2>&1; then
+    elephant service enable
+    systemctl --user start elephant.service
+  fi
+}
+
 link_maybe_backup nvim ~/.config/nvim
 link_maybe_backup ghostty ~/.config/ghostty
 link_maybe_backup bashrc ~/.bashrc
 link_maybe_backup tmux ~/.config/tmux
 link_maybe_backup hypr ~/.config/hypr
+link_maybe_backup elephant ~/.config/elephant
 link_maybe_backup fastfetch ~/.config/fastfetch
 link_maybe_backup hyprland-preview-share-picker ~/.config/hyprland-preview-share-picker
 link_maybe_backup kitty ~/.config/kitty
@@ -42,3 +55,4 @@ link_maybe_backup walker ~/.config/walker
 link_maybe_backup waybar ~/.config/waybar
 link_maybe_backup xournalpp ~/.config/xournalpp
 link_bin_scripts
+setup_walker_elephant
