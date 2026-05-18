@@ -5,7 +5,7 @@
 @define-color progress #e68e0d;
 
 window {
-  border-radius: 0;
+  border-radius: 3;
   opacity: 0.97;
   border: 2px solid @border-color;
 

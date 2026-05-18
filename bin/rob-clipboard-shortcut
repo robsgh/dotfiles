@@ -10,15 +10,12 @@ export PATH="$script_dir:$PATH"
 case "${1:-}" in
   copy)
     hyprctl dispatch sendshortcut "CTRL, Insert, activewindow" >/dev/null
-    rob-osd --custom-icon edit-copy-symbolic --custom-message "Copied"
     ;;
   paste)
     hyprctl dispatch sendshortcut "SHIFT, Insert, activewindow" >/dev/null
-    rob-osd --custom-icon edit-paste-symbolic --custom-message "Pasted"
     ;;
   cut)
     hyprctl dispatch sendshortcut "CTRL, X, activewindow" >/dev/null
-    rob-osd --custom-icon edit-cut-symbolic --custom-message "Cut"
     ;;
   *)
     echo "Usage: rob-clipboard-shortcut [copy|paste|cut]" >&2
