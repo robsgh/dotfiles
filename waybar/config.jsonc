@@ -99,7 +99,7 @@
   },
   "pulseaudio": {
     "format": "{icon}",
-    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-click": "rob-audio",
     "on-click-right": "pamixer -t",
     "tooltip-format": "Playing at {volume}%",
     "scroll-step": 5,
