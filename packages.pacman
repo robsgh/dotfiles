@@ -12,6 +12,7 @@ cups-browsed
 cups-filters
 cups-pdf
 dhcpcd
+dconf
 dust
 efibootmgr
 elephant
@@ -89,7 +90,9 @@ pipewire-pulse
 polkit-gnome
 protobuf
 pv
+qt5ct
 qt5-wayland
+qt6ct
 qt6-wayland
 reflector
 ripgrep
@@ -121,6 +124,7 @@ wireless-regdb
 wiremix
 wireplumber
 wl-clipboard
+xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland
 xdg-terminal-exec
 yay
