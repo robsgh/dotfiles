@@ -1,0 +1,225 @@
+@define-color foreground #e0e0e0;
+@define-color foreground-muted #b8b8b8;
+@define-color background #121212;
+@define-color background-raised #1f1f1f;
+@define-color background-selected #343434;
+@define-color border #bebebe;
+@define-color accent #e68e0d;
+@define-color error_bg #8f2f2f;
+@define-color error_fg #f0d0d0;
+
+* {
+  all: unset;
+  color: @foreground;
+  font-family: "SauceCodePro Nerd Font";
+  font-size: 15px;
+}
+
+popover {
+  background: @background-raised;
+  border: 1px solid alpha(@border, 0.35);
+  border-radius: 6px;
+  padding: 8px;
+}
+
+scrollbar {
+  opacity: 0;
+}
+
+.normal-icons {
+  -gtk-icon-size: 16px;
+}
+
+.large-icons {
+  -gtk-icon-size: 28px;
+}
+
+.box-wrapper {
+  background: alpha(@background, 0.97);
+  border: 1px solid alpha(@border, 0.65);
+  border-radius: 5px;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.36);
+  padding: 12px;
+}
+
+.box {
+  background: transparent;
+}
+
+.search-container {
+  background: @background-raised;
+  border: 1px solid alpha(@border, 0.22);
+  border-radius: 4px;
+}
+
+.input {
+  background: transparent;
+  caret-color: @accent;
+  color: @foreground;
+  font-size: 14px;
+  padding: 9px 10px;
+}
+
+.input:focus,
+.input:active {
+  box-shadow: none;
+  outline: none;
+}
+
+.input placeholder {
+  color: @foreground-muted;
+}
+
+.input selection {
+  background: alpha(@accent, 0.28);
+  color: @foreground;
+}
+
+.content-container,
+.scroll,
+.list {
+  background: transparent;
+}
+
+.placeholder,
+.elephant-hint {
+  color: @foreground-muted;
+  padding: 10px;
+}
+
+child {
+  border-radius: 4px;
+}
+
+child:selected,
+row:selected {
+  background: transparent;
+}
+
+.item-box {
+  border-radius: 4px;
+  padding: 8px 10px;
+}
+
+child:selected .item-box,
+row:selected .item-box {
+  background: @background-selected;
+  border-left: 2px solid @accent;
+  padding-left: 8px;
+}
+
+child:selected .item-text,
+row:selected .item-text {
+  color: @foreground;
+}
+
+.item-text-box {
+  padding: 2px 0;
+}
+
+.item-text {
+  color: @foreground;
+  font-weight: 500;
+}
+
+.item-subtext {
+  color: @foreground-muted;
+  font-size: 13px;
+}
+
+.item-image {
+  color: @foreground;
+  margin-right: 2px;
+  -gtk-icon-transform: scale(0.86);
+}
+
+.item-image-text {
+  color: @accent;
+  font-size: 20px;
+}
+
+.item-quick-activation {
+  background: alpha(@accent, 0.28);
+  border: 1px solid alpha(@accent, 0.75);
+  border-radius: 4px;
+  color: @foreground;
+  font-size: 14px;
+  padding: 3px 6px;
+}
+
+.preview {
+  border: 1px solid alpha(@border, 0.24);
+  border-radius: 4px;
+  color: @foreground;
+  padding: 8px;
+}
+
+.preview-box {
+  color: @foreground;
+}
+
+.calc .item-text {
+  color: @accent;
+  font-size: 18px;
+}
+
+.symbols .item-image {
+  font-size: 22px;
+}
+
+.todo.done .item-text-box,
+.bluetooth.disconnected {
+  opacity: 0.45;
+}
+
+.todo.urgent .item-text {
+  color: @accent;
+}
+
+.todo.active .item-text {
+  font-weight: bold;
+}
+
+.keybinds {
+  border-top: 1px solid alpha(@border, 0.18);
+  color: @foreground-muted;
+  font-size: 13px;
+  padding-top: 8px;
+}
+
+.keybind-button {
+  opacity: 0.65;
+}
+
+.keybind-button:hover {
+  opacity: 1;
+}
+
+.keybind-bind {
+  color: @foreground-muted;
+  font-size: 13px;
+  text-transform: lowercase;
+}
+
+.keybind-label {
+  border: 1px solid alpha(@border, 0.35);
+  border-radius: 3px;
+  color: @foreground;
+  padding: 2px 4px;
+}
+
+.error {
+  background: @error_bg;
+  border-radius: 4px;
+  color: @error_fg;
+  padding: 8px;
+}
+
+:not(.calc).current {
+  font-style: italic;
+}
+
+.preview-content.archlinuxpkgs,
+.preview-content.dnfpackages {
+  font-family: monospace;
+}

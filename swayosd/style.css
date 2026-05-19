@@ -13,7 +13,7 @@ window {
 }
 
 label {
-  font-family: 'JetBrainsMono Nerd Font';
+  font-family: "SauceCodePro Nerd Font";
   font-size: 11pt;
 
   color: @label;
