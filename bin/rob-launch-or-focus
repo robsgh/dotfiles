@@ -1,23 +1,21 @@
 #!/bin/bash
 
-# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
-script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-export PATH="$script_dir:$PATH"
-
 # Desktop:summary=Launch an app or focus an existing window matching a pattern
-# Desktop:args=<window-pattern> <launch-command>
+# Desktop:args=<window-pattern> [launch-command...]
 
 if (($# == 0)); then
-  echo "Usage: rob-launch-or-focus [window-pattern] [launch-command]"
+  echo "Usage: $(basename "$0") <window-pattern> [launch-command...]" >&2
   exit 1
 fi
 
 WINDOW_PATTERN="$1"
-LAUNCH_COMMAND="${2:-"uwsm-app -- $WINDOW_PATTERN"}"
+shift
 WINDOW_ADDRESS=$(hyprctl clients -j | jq -r --arg p "$WINDOW_PATTERN" '.[]|select((.class|test("\\b" + $p + "\\b";"i")) or (.title|test("\\b" + $p + "\\b";"i")))|.address' | head -n1)
 
 if [[ -n $WINDOW_ADDRESS ]]; then
   hyprctl dispatch focuswindow "address:$WINDOW_ADDRESS"
+elif (($# > 0)); then
+  exec setsid "$@"
 else
-  eval exec setsid $LAUNCH_COMMAND
+  exec setsid uwsm-app -- "$WINDOW_PATTERN"
 fi

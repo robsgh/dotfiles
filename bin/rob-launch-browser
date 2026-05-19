@@ -1,16 +1,17 @@
 #!/bin/bash
 
-# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
-script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-export PATH="$script_dir:$PATH"
-
 # Desktop:summary=Launch the default browser as determined by xdg-settings.
 # Desktop:args=[url]
 
 default_browser=$(xdg-settings get default-web-browser)
 browser_exec=$(sed -n 's/^Exec=\([^ ]*\).*/\1/p' {~/.local,~/.nix-profile,/usr}/share/applications/$default_browser 2>/dev/null | head -1)
 
-if $browser_exec --help | grep -q MOZ_LOG; then
+if [[ -z $browser_exec ]]; then
+  echo "Could not determine browser executable for $default_browser" >&2
+  exit 1
+fi
+
+if "$browser_exec" --help 2>&1 | grep -q MOZ_LOG; then
   private_flag="--private-window"
 elif [[ $browser_exec =~ edge ]]; then
   private_flag="--inprivate"
@@ -18,4 +19,9 @@ else
   private_flag="--incognito"
 fi
 
-exec setsid uwsm-app -- "$browser_exec" "${@/--private/$private_flag}"
+args=("$@")
+for i in "${!args[@]}"; do
+  [[ ${args[$i]} == "--private" ]] && args[$i]="$private_flag"
+done
+
+exec setsid uwsm-app -- "$browser_exec" "${args[@]}"

@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
-script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-export PATH="$script_dir:$PATH"
-
 # Desktop:summary=Adjust brightness on the most likely display device.
 # Desktop:args=<+N%|N%-|N%|off|on>
 # Desktop:examples=Desktop brightness display +5% | Desktop brightness display 5%- | Desktop brightness display 50% | Desktop brightness display off | Desktop brightness display on
@@ -18,6 +14,11 @@ for candidate in amdgpu_bl* intel_backlight acpi_video*; do
     break
   fi
 done
+
+if [[ -z $device ]]; then
+  echo "No display backlight device found" >&2
+  exit 1
+fi
 
 if [[ $step == "off" ]]; then
   hyprctl dispatch dpms off >/dev/null 2>&1

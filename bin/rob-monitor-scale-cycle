@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
-script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-export PATH="$script_dir:$PATH"
-
 # Desktop:summary=Cycle focused Hyprland monitor scaling through 1x, 1.25x, 1.6x, 2x, 3x, and 4x
 
 MONITOR_INFO=$(hyprctl monitors -j | jq -r '.[] | select(.focused == true)')

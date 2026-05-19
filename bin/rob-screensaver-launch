@@ -1,17 +1,13 @@
 #!/bin/bash
 
-# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
-script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-export PATH="$script_dir:$PATH"
-
 # Desktop:summary=Launch the Desktop screensaver in the default terminal on the system with the correct font configuration.
 
 if ! command -v tte &>/dev/null; then
   exit 1
 fi
 
-# Exit early if screensave is already running
-pgrep -f org.rob.screensaver && exit 0
+# Exit early if screensaver is already running
+pgrep -f org.rob.screensaver >/dev/null && exit 0
 
 # Allow screensaver to be turned off but also force started
 if rob-toggle-enabled screensaver-off && [[ $1 != "force" ]]; then

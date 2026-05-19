@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
-script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-export PATH="$script_dir:$PATH"
-
 # Desktop:summary=Show a quick system menu for screensaver, lock, suspend, logout, restart, and shutdown.
 # Desktop:group=system
 # Desktop:name=system menu

@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
-script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-export PATH="$script_dir:$PATH"
-
 # Desktop:summary=Take a screenshot
 # Desktop:group=capture
 # Desktop:args=[smart|region|windows|fullscreen] [slurp|copy|save] [--editor=<name>]
@@ -18,7 +14,7 @@ if [[ ! -d $OUTPUT_DIR ]]; then
   notify-send "Created screenshot directory: $OUTPUT_DIR" -u normal -t 2000
 fi
 
-pkill slurp && exit 0
+pkill -x slurp && exit 0
 
 SCREENSHOT_EDITOR="${ROB_SCREENSHOT_EDITOR:-satty}"
 
@@ -42,7 +38,7 @@ open_editor() {
       --save-after-copy \
       --copy-command 'wl-copy'
   else
-    $SCREENSHOT_EDITOR "$filepath"
+    "$SCREENSHOT_EDITOR" "$filepath"
   fi
 }
 
@@ -102,13 +98,13 @@ smart | *)
 
   # If the selection area is L * W < 20, we'll assume you were trying to select whichever
   # window or output it was inside of to prevent accidental 2px snapshots
-  if [[ $SELECTION =~ ^([0-9]+),([0-9]+)[[:space:]]([0-9]+)x([0-9]+)$ ]]; then
+  if [[ $SELECTION =~ ^(-?[0-9]+),(-?[0-9]+)[[:space:]]([0-9]+)x([0-9]+)$ ]]; then
     if ((${BASH_REMATCH[3]} * ${BASH_REMATCH[4]} < 20)); then
       click_x="${BASH_REMATCH[1]}"
       click_y="${BASH_REMATCH[2]}"
 
       while IFS= read -r rect; do
-        if [[ $rect =~ ^([0-9]+),([0-9]+)[[:space:]]([0-9]+)x([0-9]+) ]]; then
+        if [[ $rect =~ ^(-?[0-9]+),(-?[0-9]+)[[:space:]]([0-9]+)x([0-9]+) ]]; then
           rect_x="${BASH_REMATCH[1]}"
           rect_y="${BASH_REMATCH[2]}"
           rect_width="${BASH_REMATCH[3]}"

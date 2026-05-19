@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
-script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-export PATH="$script_dir:$PATH"
-
 # Desktop:summary=Display Hyprland keybindings defined in your configuration using walker for an interactive search menu.
 
 declare -A KEYCODE_SYM_MAP
@@ -45,7 +41,7 @@ lookup_keycode_cached() {
 }
 
 parse_keycodes() {
-  local start end elapsed
+  local code symbol start end elapsed
   [[ ${DEBUG:-0} == "1" ]] && start=$(date +%s.%N)
   while IFS= read -r line; do
     if [[ $line =~ code:([0-9]+) ]]; then
@@ -53,7 +49,7 @@ parse_keycodes() {
       if [[ $code == "201" ]]; then
         echo "${line/SUPER SHIFT,code:201/,COPILOT KEY}"
       else
-        symbol=$(lookup_keycode_cached "$code" "$XKB_KEYMAP_CACHE")
+        symbol=$(lookup_keycode_cached "$code")
         echo "${line/code:${code}/$symbol}"
       fi
     elif [[ $line =~ mouse:([0-9]+) ]]; then
@@ -228,11 +224,10 @@ prioritize_entries() {
 }
 
 output_keybindings() {
-  build_keymap_cache
+  build_keymap_cache || return
 
   {
     dynamic_bindings
-    static_bindings
   } |
     sort -u |
     parse_keycodes |

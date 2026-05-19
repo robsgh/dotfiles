@@ -1,13 +1,15 @@
 #!/bin/bash
 
-# Ensure sibling rob-* helpers resolve when launched by Hyprland without shell PATH updates.
-script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-export PATH="$script_dir:$PATH"
-
 # Desktop:summary=Enable, disable, or toggle the touchpad
 # Desktop:args=[on|off|toggle]
 
 STATE_CONF="$HOME/.local/state/dotfiles/toggles/hypr/touchpad-disabled.conf"
+action="${1:-toggle}"
+
+case "$action" in
+  on|off|toggle) ;;
+  *) echo "Usage: $(basename "$0") [on|off|toggle]" >&2; exit 1 ;;
+esac
 
 device="$(rob-touchpad-device)"
 
@@ -29,7 +31,7 @@ disable() {
   rob-osd --custom-icon touchpad-disabled-symbolic --custom-message "Touchpad disabled"
 }
 
-case "${1:-toggle}" in
+case "$action" in
   on) enable ;;
   off) disable ;;
   toggle) if [[ -f $STATE_CONF ]]; then enable; else disable; fi ;;
