@@ -121,6 +121,7 @@ alias dots="cd ~/dotfiles"
 alias proj="cd ~/Projects"
 alias h="cd $HOME"
 
+alias sudo="sudo "
 alias ee="e ~/.bashrc && source ~/.bashrc"
 alias eee="e ~/.config/nvim"
 alias cl="claude"
