@@ -5,7 +5,7 @@
   "spacing": 0,
   "height": 26,
   "modules-left": ["custom/launcher", "hyprland/workspaces"],
-  "modules-center": ["clock"],
+  "modules-center": ["clock", "custom/idle-lock"],
   "modules-right": [
     "group/tray-expander",
     "bluetooth",
@@ -44,6 +44,16 @@
     "on-click": "walker",
     "on-click-right": "xdg-terminal-exec",
     "tooltip-format": "Launcher"
+  },
+  "custom/idle-lock": {
+    "exec": "pgrep -x hypridle >/dev/null || echo 󱫗",
+    "interval": 5,
+    "signal": 9,
+    "format": "{}",
+    "hide-empty-text": true,
+    "tooltip": true,
+    "tooltip-format": "Idle locking disabled",
+    "on-click": "rob-toggle-idle"
   },
 
   "cpu": {

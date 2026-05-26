@@ -34,9 +34,14 @@
 #cpu,
 #battery,
 #pulseaudio,
+#custom-idle-lock,
 #custom-launcher {
   min-width: 12px;
   margin: 0 7.5px;
+}
+
+#custom-idle-lock {
+  color: #e5c07b;
 }
 
 #tray {
