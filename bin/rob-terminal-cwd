@@ -3,19 +3,81 @@
 # Desktop:summary=Print the current working directory of the active terminal window
 # Desktop:hidden=true
 
-terminal_pid=$(hyprctl activewindow | awk '/pid:/ {print $2}')
-shell_pid=$(pgrep -P "$terminal_pid" | tail -n1)
-
-if [[ -n $shell_pid ]]; then
-  cwd=$(readlink -f "/proc/$shell_pid/cwd" 2>/dev/null)
-  shell=$(readlink -f "/proc/$shell_pid/exe" 2>/dev/null)
-
-  # Check if $shell is a valid shell and $cwd is a directory.
-  if grep -qs "$shell" /etc/shells && [[ -d $cwd ]]; then
-    echo "$cwd"
-  else
-    echo "$HOME"
-  fi
-else
+fallback_home() {
   echo "$HOME"
+  exit 0
+}
+
+is_shell_pid() {
+  local pid="$1" shell
+  shell=$(readlink -f "/proc/$pid/exe" 2>/dev/null) || return 1
+  grep -Fxqs "$shell" /etc/shells
+}
+
+pid_cwd() {
+  local pid="$1" cwd
+  cwd=$(readlink -f "/proc/$pid/cwd" 2>/dev/null) || return 1
+  [[ -d $cwd ]] || return 1
+  echo "$cwd"
+}
+
+# Prefer the active window title for terminals like Ghostty running in
+# single-instance mode. In that mode every terminal window has the same app PID,
+# so walking child processes alone picks an arbitrary/last-spawned shell.
+active_window=$(hyprctl activewindow 2>/dev/null) || fallback_home
+terminal_pid=$(awk '/^[[:space:]]*pid:/ {print $2; exit}' <<<"$active_window")
+window_class=$(sed -n 's/^[[:space:]]*class: //p' <<<"$active_window" | head -n1)
+window_title=$(sed -n 's/^[[:space:]]*title: //p' <<<"$active_window" | head -n1)
+
+[[ $terminal_pid =~ ^[0-9]+$ ]] || fallback_home
+
+case "$window_class" in
+  Alacritty|kitty|com.mitchellh.ghostty|foot) ;;
+  *) fallback_home ;;
+esac
+
+# Get direct child shells for the terminal app process.
+mapfile -t shell_pids < <(pgrep -P "$terminal_pid" 2>/dev/null | while read -r pid; do
+  is_shell_pid "$pid" && echo "$pid"
+done)
+
+# If the terminal title is a path (Ghostty shell integration does this for idle
+# shells), use it directly.
+title_path=""
+case "$window_title" in
+  '~') title_path="$HOME" ;;
+  '~/'*) title_path="$HOME/${window_title#~/}" ;;
+  /*) title_path="$window_title" ;;
+esac
+if [[ -n $title_path && -d $title_path ]]; then
+  echo "$title_path"
+  exit 0
 fi
+
+# Otherwise, use the active title to disambiguate among multiple shell children
+# of a single-instance terminal. This handles titles such as "π - dotfiles".
+matches=()
+for pid in "${shell_pids[@]}"; do
+  cwd=$(pid_cwd "$pid") || continue
+  display_cwd=${cwd/#$HOME/~}
+  base=${cwd##*/}
+
+  if [[ $window_title == "$cwd" || $window_title == "$display_cwd" || \
+        $window_title == "$base" || $window_title == *" - $base" ]]; then
+    matches+=("$cwd")
+  fi
+done
+
+if (( ${#matches[@]} == 1 )); then
+  echo "${matches[0]}"
+  exit 0
+fi
+
+# For non-single-instance terminals there should be one direct shell child.
+if (( ${#shell_pids[@]} == 1 )); then
+  pid_cwd "${shell_pids[0]}" && exit 0
+fi
+
+# Multiple children with no title match means the focused terminal's shell cannot
+# be identified reliably. Avoid returning the last-spawned terminal by mistake.
+fallback_home
