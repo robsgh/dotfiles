@@ -52,5 +52,6 @@ link_maybe_backup swayosd ~/.config/swayosd
 link_maybe_backup uwsm ~/.config/uwsm
 link_maybe_backup walker ~/.config/walker
 link_maybe_backup waybar ~/.config/waybar
+link_maybe_backup pi ~/.pi
 link_bin_scripts
 setup_walker_elephant
