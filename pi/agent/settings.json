@@ -1,11 +1,12 @@
 {
-  "lastChangelogVersion": "0.78.0",
+  "lastChangelogVersion": "0.78.1",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.5",
   "defaultThinkingLevel": "high",
   "packages": [
     "npm:@narumitw/pi-caffeinate",
-    "npm:@narumitw/pi-codex-usage"
+    "npm:@narumitw/pi-codex-usage",
+    "npm:pi-agent-browser-native"
   ],
   "enableInstallTelemetry": false,
   "doubleEscapeAction": "tree",

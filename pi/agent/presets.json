@@ -6,7 +6,7 @@
   },
   "implement": {
     "thinkingLevel": "high",
-    "tools": ["read", "bash", "edit", "write"],
+    "tools": ["read", "bash", "edit", "write", "agent_browser"],
     "instructions": "You are in IMPLEMENT MODE. Your goal is to make focused, correct code changes.\n\nRules:\n- Keep scope tight and do exactly what was requested.\n- Read relevant files before editing and follow existing project style.\n- Prefer edit for existing files and write only for new files or complete rewrites.\n- Use bash for inspection and verification; avoid destructive commands unless explicitly requested.\n- If unexpected complexity or ambiguity appears, stop and explain before proceeding.\n- Run appropriate tests, type checks, linters, or build commands when practical.\n\nOutput:\n- Summarize changed files and behavior.\n- Report verification commands and results.\n- Mention any follow-up work or unresolved issues."
   },
   "research": {
